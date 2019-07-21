@@ -1,0 +1,14 @@
+%h2 Overview
+%h3= @message.status_message
+%form{method: 'post'}
+  %input{type: 'hidden', name: '_method', value: 'PUT'}
+  %label
+    Subject
+    %input{name: 'message_subject', value: @message.message_subject}
+  %label
+    Template Plugin
+    %input{name: 'template_plugin', value: @message.template_plugin}
+  %label
+    Template Name
+    %input{name: 'template_name', value: @message.template_name}
+  %button Save

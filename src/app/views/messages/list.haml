@@ -1,0 +1,7 @@
+%form{method: 'POST'}
+  %button Create
+
+%ul
+  - @messages.each do |message|
+    %a{href: "messages/#{message.id}"}
+      %li= message.message_subject || '<i>No subject<i>'

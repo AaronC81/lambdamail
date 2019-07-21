@@ -1,0 +1,16 @@
+%form{method: 'POST'}
+  %label
+    Name
+    %input{name: 'name'}
+  %label
+    Email Address
+    %input{name: 'email_address'}
+  %button Create
+
+%ul
+  - @recipients.each do |recipient|
+    %li
+      = "#{recipient.name} - #{recipient.email_address}"
+      %form{method: 'post', action: "recipients/#{recipient.id}", id: "deleteLink#{recipient.id}Form"}
+        %input{type: 'hidden', name: '_method', value: 'DELETE'}
+        %a{href: '#', onclick: "document.getElementById('deleteLink#{recipient.id}Form').submit()"} Delete

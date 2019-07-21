@@ -1,0 +1,4 @@
+ignore:
+  - ./sorbet/rbi/gems/mustermann.rbi
+  - ./sorbet/rbi/gems/sorbet-runtime.rbi
+  - ./sorbet/rbi/sorbet-typed/lib/bundler/all/bundler.rbi
