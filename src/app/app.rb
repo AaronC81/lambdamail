@@ -11,9 +11,9 @@ module LambdaMail
     enable :sessions
     register Sinatra::Flash
 
-    def render_page(name, title, **locals)
+    def render_admin_page(name, title, **locals)
       @title = title
-      haml name.to_sym, layout: :page, locals: locals
+      haml name.to_sym, layout: :admin_page, locals: locals
     end
 
     def write_params_into_model(params, model)
@@ -33,7 +33,7 @@ module LambdaMail
       namespace '/messages' do
         get do
           @messages = Model::EmailMessage.all
-          render_page('messages/list', 'Messages')
+          render_admin_page('messages/list', 'Messages')
         end
 
         post do
@@ -46,7 +46,7 @@ module LambdaMail
 
         get '/:id' do |id|
           @message = Model::EmailMessage.get(id)
-          render_page('messages/show', 'Message')
+          render_admin_page('messages/show', 'Message')
         end
 
         put '/:id' do |id|
@@ -61,7 +61,7 @@ module LambdaMail
       namespace '/recipients' do
         get do
           @recipients = Model::Recipient.all
-          render_page('recipients/list', 'Recipients')
+          render_admin_page('recipients/list', 'Recipients')
         end
 
         post do
