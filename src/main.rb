@@ -5,6 +5,7 @@ require_relative 'model/email_section.rb'
 require_relative 'model/email_message.rb'
 require_relative 'model/recipient.rb'
 require_relative 'app/app.rb'
+require_relative 'configuration.rb'
 
 if defined?(RSpec)
   db = 'sqlite::memory:'
@@ -19,7 +20,7 @@ if defined?(RSpec)
 -----------------------------------------
 )
 else
-  db = "sqlite://#{File.join(Dir.pwd, 'lambdamail.db')}"
+  db = "sqlite://#{Configuration.database_file}"
 end
 DataMapper.setup(:default, db)
 DataMapper.finalize
