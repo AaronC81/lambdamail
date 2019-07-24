@@ -20,7 +20,7 @@ if defined?(RSpec)
 -----------------------------------------
 )
 else
-  db = "sqlite://#{Configuration.database_file}"
+  db = "sqlite://#{LambdaMail::Configuration.database_file}"
 end
 DataMapper.setup(:default, db)
 DataMapper.finalize
