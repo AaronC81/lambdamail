@@ -16,6 +16,11 @@ module LambdaMail
       haml name.to_sym, layout: :admin_page, locals: locals
     end
 
+    def render_page(name, title, **locals)
+      @title = title
+      haml name.to_sym, layout: :page, locals: locals
+    end
+
     def write_params_into_model(params, model)
       params.reject { |k, _| k.start_with?('_') }.each do |k, v|
         raise "unexpected parameter #{k} specified" \
@@ -27,6 +32,30 @@ module LambdaMail
 
     get '/' do
       raise 'nyi'
+    end
+
+    namespace '/subscribe' do
+      get do
+        render_page('subscribe/form', 'Subscribe')
+      end
+
+      get '/done' do
+        render_page('subscribe/done', 'Confirm Subscription')
+      end
+
+      post do
+        pending_subscription = Model::PendingSubscription.first(email_address: params[:email_address])
+        if pending_subscription.nil?
+          pending_subscription = Model::PendingSubscription.create(
+            email_address: params[:email_address],
+            token: Utilities.generate_token
+          )
+          pending_subscription.save!
+        end
+        pending_subscription.send_confirmation_email
+
+        redirect to "#{request.path_info}/done"
+      end
     end
 
     namespace '/admin' do

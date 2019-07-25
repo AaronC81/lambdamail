@@ -55,24 +55,6 @@ module LambdaMail
       end
     end
 
-    ##
-    # Gets the SMTP/IMAP emailer account which is configured.
-    #
-    # @return [SmtpEmailerAccount]
-    def self.smtp_emailer_account
-      acct = load_configuration_file['mailing_list']['emailer_account']
-      raise unless acct['kind'] == 'smtp_imap'
-      emailer = Mailing::SmtpEmailerAccount.new
-      emailer.smtp_details = acct['smtp_details'].map do |k, v|
-        [k.to_sym, v]
-      end.to_h
-      emailer.imap_details = acct['imap_details'].map do |k, v|
-        [k.to_sym, v]
-      end.to_h
-      emailer.imap_sent_mailbox = acct['imap_sent_mailbox']
-      emailer
-    end
-
     # Ensure that the configuration dirs and files exists
     FileUtils.mkdir_p(CONFIGURATION_DIR)
     File.write(configuration_file, {
