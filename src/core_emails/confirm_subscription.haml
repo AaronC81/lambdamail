@@ -8,6 +8,5 @@
     %p
       %b
         To confirm your email address, please
-        -# TODO make this an actual URL, it can't be relative cos this is an email
-        %a{href: "/subscribe/confirm?email_address=#{email_address}&token=#{token}"}
+        %a{href: "#{base_url}/subscribe/confirm?email_address=#{email_address}&token=#{token}"}
           click here.

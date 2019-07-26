@@ -30,6 +30,14 @@ module LambdaMail
       end
     end
 
+    class << self
+      attr_accessor :base_url
+    end
+
+    before do
+      self.class.base_url ||= request.base_url
+    end
+
     get '/' do
       raise 'nyi'
     end
@@ -44,17 +52,44 @@ module LambdaMail
       end
 
       post do
+        # TODO: an "only" assertion method might be nice
         pending_subscription = Model::PendingSubscription.first(email_address: params[:email_address])
         if pending_subscription.nil?
           pending_subscription = Model::PendingSubscription.create(
             email_address: params[:email_address],
+            name: params[:name],
             token: Utilities.generate_token
           )
+          pending_subscription.save!
+        else
+          # The user could have entered a different name since their first subscription
+          pending_subscription.name = params[:name]
           pending_subscription.save!
         end
         pending_subscription.send_confirmation_email
 
         redirect to "#{request.path_info}/done"
+      end
+
+      get '/confirm' do
+        email_address = params[:email_address]
+        token = params[:token]
+        halt 422, 'email_address or token not specified' unless email_address && token
+
+        pending_subscription = Model::PendingSubscription.first(email_address: params[:email_address])
+
+        halt 403, 'this email_address does not have a pending subscription' unless pending_subscription
+        halt 403, 'incorrect token' if pending_subscription.token != token
+
+        recipient = Model::Recipient.new(
+          email_address: pending_subscription.email_address,
+          name: pending_subscription.name
+        )
+        recipient.save!
+
+        # TODO: also delete the pending subscription in a TX
+
+        render_page('subscribe/confirm', 'Subscription Confirmed')
       end
     end
 

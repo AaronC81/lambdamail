@@ -10,6 +10,7 @@ module LambdaMail
       property :updated_at, DateTime
 
       property :email_address, Text, unique: true, key: true
+      property :name, Text
       property :token, Text
 
       def send_confirmation_email
@@ -25,7 +26,8 @@ module LambdaMail
         body = engine.render(
           Object.new,
           email_address: CGI.escape(email_address),
-          token: token
+          token: token,
+          base_url: App.base_url
         )
 
         Mailing.send_raw_email(
