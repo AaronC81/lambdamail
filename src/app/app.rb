@@ -53,6 +53,7 @@ module LambdaMail
 
       post do
         # TODO: an "only" assertion method might be nice
+        # TODO: check user isn't already on the mailing list
         pending_subscription = Model::PendingSubscription.first(email_address: params[:email_address])
         if pending_subscription.nil?
           pending_subscription = Model::PendingSubscription.create(
