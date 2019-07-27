@@ -13,11 +13,13 @@ module LambdaMail
 
     def render_admin_page(name, title, **locals)
       @title = title
+      @name = name
       haml name.to_sym, layout: :admin_page, locals: locals
     end
 
     def render_page(name, title, **locals)
       @title = title
+      @name = name
       haml name.to_sym, layout: :page, locals: locals
     end
 

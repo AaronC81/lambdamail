@@ -12,6 +12,7 @@
 
 #container #sidebar #badge {
   padding: 10px;
+  padding-bottom: 30px;
   width: calc(100% - 20px);
 }
 
@@ -26,4 +27,14 @@
 #container #content-foreground {
   background-color: white;
   padding: 10px;
+}
+
+.sidebar-icon {
+  padding: 20px;
+  width: calc(100% - 40px);
+}
+
+.selected {
+  background-color: rgb(243, 242, 244);
+  box-shadow: inset 0px 10px 5px -5px #444;
 }
