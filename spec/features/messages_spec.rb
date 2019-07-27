@@ -1,7 +1,7 @@
 describe 'the messages page', type: :feature do
   before :all do
-    LambdaMail::Model::EmailMessage.create(message_subject: 'Foo').save!
-    LambdaMail::Model::EmailMessage.create.save!
+    LambdaMail::Model::ComposedEmailMessage.create(message_subject: 'Foo').save!
+    LambdaMail::Model::ComposedEmailMessage.create.save!
   end
 
   describe 'list view' do
@@ -26,7 +26,7 @@ describe 'the messages page', type: :feature do
       fill_in 'Subject', with: 'Bar'
       click_button 'Save'
       expect(page).to have_field('Subject', with: 'Bar')
-      expect(LambdaMail::Model::EmailMessage.get(1).message_subject).to eq 'Bar'
+      expect(LambdaMail::Model::ComposedEmailMessage.get(1).message_subject).to eq 'Bar'
     end
   end
 end

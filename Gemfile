@@ -3,6 +3,7 @@ source :rubygems
 gem "rspec", "~> 3.8"
 gem "sinatra", "~> 2.0"
 gem "capybara", "~> 3.25"
+gem 'json', '~>1.6'
 
 gem "mongo_mapper", "~> 0.14.0"
 gem "activemodel-serializers-xml", "~> 1.0"

@@ -1,6 +1,6 @@
 module LambdaMail
   module Model
-    class EmailMessage
+    class ComposedEmailMessage
       include DataMapper::Resource
       property :id, Serial
       property :created_at, DateTime

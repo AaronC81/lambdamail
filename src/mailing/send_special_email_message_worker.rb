@@ -1,21 +1,28 @@
 require 'mail'
-require_relative 'utilities.rb'
 require 'sidekiq'
 
 module LambdaMail
   module Mailing
-    class SendEmailWorker
+    class SendSpecialEmailMessageWorker
       include Sidekiq::Worker
-      def perform(smtp_details, imap_details, imap_sent_mailbox, email_subject, email_to, email_body, delete_from_sent=false)
+      sidekiq_options retry: 0
+      def perform(special_email_message_id, delete_from_sent)
         # Create a random message ID
         mail_message_id =
           "<#{Utilities.generate_token}@lambdamail.smtp>"
 
-        # Sidekiq puts keys back to strings, we want symbols
-        smtp_details = Utilities.deep_keys_to_sym(smtp_details)
-        imap_details = Utilities.deep_keys_to_sym(imap_details)
-
+        # Load the configuration
+        config = Utilities.deep_keys_to_sym(LambdaMail::Configuration.load_configuration_file)
+        smtp_details = config[:mailing_list][:emailer_account][:smtp_details]
+        imap_details = config[:mailing_list][:emailer_account][:imap_details]
+        imap_sent_mailbox = config[:mailing_list][:emailer_account][:imap_sent_mailbox]
         from_address = smtp_details[:address]
+
+        # Load the special email message and unpack its properties
+        special_email_message = Model::SpecialEmailMessage.get(special_email_message_id)
+        email_to = special_email_message.recipient
+        email_subject = special_email_message.subject
+        email_body = special_email_message.body
 
         # Create the message
         mail_message = Mail::Message.new do
@@ -50,22 +57,6 @@ module LambdaMail
         imap_account.find_and_delete(mailbox: imap_sent_mailbox,
           keys: search_term, count: 1)
       end
-    end
-
-    class << self
-      attr_accessor :smtp_details, :imap_details, :imap_sent_mailbox
-    end
-
-    def self.send_raw_email(email_subject, email_to, email_body, delete_from_sent=false)
-      SendEmailWorker.perform_async(
-        smtp_details,
-        imap_details,
-        imap_sent_mailbox,
-        email_subject,
-        email_to,
-        email_body,
-        delete_from_sent
-      )
     end
   end
 end

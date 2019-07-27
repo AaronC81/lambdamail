@@ -82,13 +82,15 @@ module LambdaMail
         halt 403, 'this email_address does not have a pending subscription' unless pending_subscription
         halt 403, 'incorrect token' if pending_subscription.token != token
 
+        name = pending_subscription.name
+        email_address = pending_subscription.email_address
+        pending_subscription.destroy
+
         recipient = Model::Recipient.new(
-          email_address: pending_subscription.email_address,
-          name: pending_subscription.name
+          email_address: email_address,
+          name: name
         )
         recipient.save!
-
-        # TODO: also delete the pending subscription in a TX
 
         render_page('subscribe/confirm', 'Subscription Confirmed')
       end
@@ -97,12 +99,12 @@ module LambdaMail
     namespace '/admin' do
       namespace '/messages' do
         get do
-          @messages = Model::EmailMessage.all
+          @messages = Model::ComposedEmailMessage.all
           render_admin_page('messages/list', 'Messages')
         end
 
         post do
-          @message = Model::EmailMessage.create
+          @message = Model::ComposedEmailMessage.create
           write_params_into_model(params, @message)
           @message.save!
           flash[:success] = 'New email message created.'
@@ -110,12 +112,12 @@ module LambdaMail
         end
 
         get '/:id' do |id|
-          @message = Model::EmailMessage.get(id)
+          @message = Model::ComposedEmailMessage.get(id)
           render_admin_page('messages/show', 'Message')
         end
 
         put '/:id' do |id|
-          @message = Model::EmailMessage.get(id)
+          @message = Model::ComposedEmailMessage.get(id)
           write_params_into_model(params, @message)
           @message.save!
           flash[:success] = 'Email message updated.'

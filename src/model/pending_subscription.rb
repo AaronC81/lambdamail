@@ -30,10 +30,14 @@ module LambdaMail
           base_url: App.base_url
         )
 
-        Mailing.send_raw_email(
-          'Please confirm your mailing list subscription',
-          email_address,
-          body,
+        message = Model::SpecialEmailMessage.create(
+          subject: 'Please confirm your mailing list subscription',
+          recipient: email_address,
+          body: body
+        )
+        message.save!
+        Mailing::SendSpecialEmailMessageWorker.perform_async(
+          message.id,
           true
         )
       end
