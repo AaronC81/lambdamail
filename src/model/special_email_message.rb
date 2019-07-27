@@ -9,6 +9,7 @@ module LambdaMail
       property :subject, Text
       property :body, Text
       property :recipient, Text
+      property :sent, Boolean, default: false
     end
   end
 end

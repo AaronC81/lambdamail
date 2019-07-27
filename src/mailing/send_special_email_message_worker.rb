@@ -20,23 +20,30 @@ module LambdaMail
 
         # Load the special email message and unpack its properties
         special_email_message = Model::SpecialEmailMessage.get(special_email_message_id)
-        email_to = special_email_message.recipient
-        email_subject = special_email_message.subject
-        email_body = special_email_message.body
 
-        # Create the message
-        mail_message = Mail::Message.new do
-          from from_address
-          to email_to
-          subject email_subject
-          message_id mail_message_id
-          body email_body
+        unless special_email_message.sent
+          email_to = special_email_message.recipient
+          email_subject = special_email_message.subject
+          email_body = special_email_message.body
+
+          # Create the message
+          mail_message = Mail::Message.new do
+            from from_address
+            to email_to
+            subject email_subject
+            message_id mail_message_id
+            body email_body
+          end
+          mail_message.content_type = 'text/html'
+
+          # Send with the SMTP account
+          mail_message.delivery_method :smtp, smtp_details
+          mail_message.deliver
+
+          # Set the sent flag
+          special_email_message.sent = true
+          special_email_message.save!
         end
-        mail_message.content_type = 'text/html'
-
-        # Send with the SMTP account
-        mail_message.delivery_method :smtp, smtp_details
-        mail_message.deliver
 
         # If we weren't asked to also delete the message, we can stop here
         return unless delete_from_sent
