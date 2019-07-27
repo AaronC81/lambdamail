@@ -1,0 +1,37 @@
+* {
+  font-family: 'Muli', sans-serif;
+}
+
+body, html {
+  padding: 0;
+  margin: 0;
+}
+
+input, textarea {
+  padding: 8px;
+  border: 1px solid rgb(68, 55, 82);
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+input, label {
+  display: block;
+}
+
+button {
+  padding: 8px;
+  border: 1px solid rgb(68, 55, 82);
+  border-radius: 5px;
+  background-color: rgb(68, 55, 82);
+  cursor: pointer;
+  color: white;
+  padding-left: 30px;
+  padding-right: 30px;
+  margin-bottom: 10px;
+  transition: all 0.15s linear;
+}
+
+button:hover {
+  background-color: rgb(125, 137, 153);
+  color: black;
+}
