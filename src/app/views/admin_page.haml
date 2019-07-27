@@ -1,9 +1,14 @@
 %html
   %head
     %title #{@title} - LambdaMail
+    %link{rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Muli&display=swap'}
+    %link{rel: 'stylesheet', href: '/css/admin_page.css'}
   %body
-    #header
     #container
-      = styled_flash
-      = yield
+      #sidebar
+        %img#badge{src: '/img/logo.png'}
+      #content-background
+        #content-foreground
+          = styled_flash
+          = yield
     #footer

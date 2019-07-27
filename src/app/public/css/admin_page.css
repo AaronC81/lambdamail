@@ -1,0 +1,71 @@
+* {
+  font-family: 'Muli', sans-serif;
+}
+
+body, html {
+  padding: 0;
+  margin: 0;
+}
+
+input, textarea {
+  padding: 8px;
+  border: 1px solid rgb(68, 55, 82);
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+input, label {
+  display: block;
+}
+
+button {
+  padding: 8px;
+  border: 1px solid rgb(68, 55, 82);
+  border-radius: 5px;
+  background-color: rgb(68, 55, 82);
+  cursor: pointer;
+  color: white;
+  padding-left: 30px;
+  padding-right: 30px;
+  margin-bottom: 10px;
+  transition: all 0.15s linear;
+}
+
+button:hover {
+  background-color: rgb(125, 137, 153);
+  color: black;
+}
+
+#container {
+  display: flex;
+  flex-direction: row;
+}
+
+#container #sidebar {
+  width: 80px;
+  height: 100%;
+  position: fixed;
+  background-color: rgb(125, 137, 153);
+}
+
+#container #sidebar #badge {
+  padding: 10px;
+  width: calc(100% - 20px);
+}
+
+#container #content-background {
+  margin-left: 80px;
+  background-color: rgb(243, 242, 244);
+  padding: 20px;
+  width: 100%;
+  min-height: 100vh;
+}
+
+#container #content-foreground {
+  background-color: white;
+  padding: 10px;
+}
+
+.inline {
+  display: inline-block;
+}
