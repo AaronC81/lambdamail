@@ -1,16 +1,22 @@
 %form{method: 'POST'}
-  %label.inline
+  %label.inline-block
     Name
     %input{name: 'name'}
-  %label.inline
+  %label.inline-block
     Email Address
     %input{name: 'email_address'}
   %button Create
 
-%ul
+%table
+  %tr
+    %th Name
+    %th Email Address
+    %th Actions
   - @recipients.each do |recipient|
-    %li
-      = "#{recipient.name} - #{recipient.email_address}"
-      %form{method: 'post', action: "recipients/#{recipient.id}", id: "deleteLink#{recipient.id}Form"}
-        %input{type: 'hidden', name: '_method', value: 'DELETE'}
-        %a{href: '#', onclick: "document.getElementById('deleteLink#{recipient.id}Form').submit()"} Delete
+    %tr
+      %td= recipient.name
+      %td= recipient.email_address
+      %td
+        %form.inline{method: 'post', action: "recipients/#{recipient.id}", id: "deleteLink#{recipient.id}Form"}
+          %input{type: 'hidden', name: '_method', value: 'DELETE'}
+          %a{href: '#', onclick: "document.getElementById('deleteLink#{recipient.id}Form').submit()"} Delete

@@ -35,3 +35,22 @@ button:hover {
   background-color: rgb(125, 137, 153);
   color: black;
 }
+
+.inline-block {
+  display: inline-block;
+}
+
+.inline {
+  display: inline;
+}
+
+table {
+  padding-left: 200px;
+  padding-right: 200px;
+  width: 100%;
+}
+
+tr, td {
+  padding: 10px;
+  text-align: center;
+}
