@@ -37,6 +37,18 @@ button:hover {
   color: black;
 }
 
+.flash {
+  border: 1px solid black;
+  border-radius: 5px;
+  background: #bbb;
+  padding: 15px;
+}
+
+.flash.success {
+  background-color: #3dbd5d;
+  border-color: #007500;
+}
+
 .inline-block {
   display: inline-block;
 }
