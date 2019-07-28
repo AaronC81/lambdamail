@@ -30,4 +30,6 @@ DataMapper.setup(:default, db)
 DataMapper.finalize
 DataMapper.auto_upgrade!
 
+puts "Loaded #{LambdaMail::Configuration.plugins.length} plugins"
+
 LambdaMail::App.run! if $PROGRAM_NAME == __FILE__

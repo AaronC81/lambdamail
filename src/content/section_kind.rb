@@ -1,3 +1,5 @@
+require 'sorbet-runtime'
+
 module LambdaMail
   module Content
     class SectionKind
