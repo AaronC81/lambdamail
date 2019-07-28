@@ -2,13 +2,13 @@
 %h3= @message.status_message
 %form{method: 'post'}
   %input{type: 'hidden', name: '_method', value: 'PUT'}
-  %label
+  %label.inline-block
     Subject
     %input{name: 'message_subject', value: @message.message_subject}
-  %label
+  %label.inline-block
     Template Plugin
     %input{name: 'template_plugin', value: @message.template_plugin}
-  %label
+  %label.inline-block
     Template Name
     %input{name: 'template_name', value: @message.template_name}
   %button Save

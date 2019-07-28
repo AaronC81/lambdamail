@@ -7,7 +7,7 @@ body, html {
   margin: 0;
 }
 
-input, textarea {
+input, textarea, select {
   padding: 8px;
   border: 1px solid rgb(68, 55, 82);
   border-radius: 5px;
