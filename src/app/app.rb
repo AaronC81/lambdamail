@@ -115,6 +115,7 @@ module LambdaMail
 
         get '/:id' do |id|
           @message = Model::ComposedEmailMessage.get(id)
+          @plugins = Configuration.plugins
           render_admin_page('messages/show', 'Message')
         end
 

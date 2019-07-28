@@ -7,7 +7,10 @@
     %input{name: 'message_subject', value: @message.message_subject}
   %label.inline-block
     Template Plugin
-    %input{name: 'template_plugin', value: @message.template_plugin}
+    %select{name: 'template_plugin'}
+      %option{value: 'nil'} -
+      - @plugins.each do |plugin|
+        %option{value: plugin.package, selected: ('selected' if @message.template_plugin == plugin.package)}= plugin.name
   %label.inline-block
     Template Name
     %input{name: 'template_name', value: @message.template_name}
