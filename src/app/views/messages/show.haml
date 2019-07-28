@@ -1,17 +1,34 @@
 %h2 Overview
 %h3= @message.status_message
-%form{method: 'post'}
+%form{method: 'post', id: 'details-form'}
   %input{type: 'hidden', name: '_method', value: 'PUT'}
   %label.inline-block
     Subject
     %input{name: 'message_subject', value: @message.message_subject}
+  %input{name: 'template_plugin', type: 'hidden'}
+  %input{name: 'template_name', type: 'hidden'}
   %label.inline-block
-    Template Plugin
-    %select{name: 'template_plugin'}
-      %option{value: 'nil'} -
+    Template
+    %select{id: 'template-select'}
+      %option{value: 'nil'} Select one...
       - @plugins.each do |plugin|
-        %option{value: plugin.package, selected: ('selected' if @message.template_plugin == plugin.package)}= plugin.name
-  %label.inline-block
-    Template Name
-    %input{name: 'template_name', value: @message.template_name}
+        - if plugin.templates.any?
+          %optgroup{label: plugin.name}
+            - plugin.templates.each do |template|
+              %option{value: "#{plugin.package}/#{template.id}", selected: ('selected' if "#{plugin.package}/#{template.id}" == "#{@message.template_plugin}/#{@message.template_name}")}= template.name
   %button Save
+  
+  :javascript
+    document.getElementById("details-form").onsubmit = () => {
+      const templateSelect = document.getElementById("template-select");
+      const template = templateSelect.options[templateSelect.selectedIndex].value;
+      if (template === "nil") {
+        document.getElementsByName("template_plugin")[0].value = null;
+        document.getElementsByName("template_name")[0].value = null;
+      } else {
+        const templateParts = template.split("/");
+        document.getElementsByName("template_plugin")[0].value = templateParts[0];
+        document.getElementsByName("template_name")[0].value = templateParts[1];
+      }
+    }
+    
