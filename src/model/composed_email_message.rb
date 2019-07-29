@@ -6,8 +6,8 @@ module LambdaMail
       property :created_at, DateTime
       property :updated_at, DateTime
 
-      property :template_plugin, Text
-      property :template_name, Text
+      property :template_plugin_package, Text
+      property :template_plugin_id, Text
       property :message_subject, Text
       property :status, Text, default: 'draft'
       property :recipients, Text

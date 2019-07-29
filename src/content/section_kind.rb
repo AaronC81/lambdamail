@@ -18,6 +18,7 @@ module LambdaMail
       def initialize(id:, name:)
         @id = id
         @name = name
+        @properties = {}
       end
 
       PROPERTY_TYPES = %i[text long_text integer number].freeze

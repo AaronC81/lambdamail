@@ -1,34 +1,40 @@
-%h2 Overview
-%h3= @message.status_message
+%h1 Message Editor
 %form{method: 'post', id: 'details-form'}
   %input{type: 'hidden', name: '_method', value: 'PUT'}
+  
+  %button Save
+  %br
+
+  %h2 Properties    
+  %p
+    %b= @message.status_message
   %label.inline-block
     Subject
     %input{name: 'message_subject', value: @message.message_subject}
-  %input{name: 'template_plugin', type: 'hidden'}
-  %input{name: 'template_name', type: 'hidden'}
+  %input{name: 'template_plugin_package', type: 'hidden'}
+  %input{name: 'template_plugin_id', type: 'hidden'}
   %label.inline-block
     Template
     %select{id: 'template-select'}
-      %option{value: 'nil'} Select one...
+      %option Select one...
       - @plugins.each do |plugin|
         - if plugin.templates.any?
           %optgroup{label: plugin.name}
             - plugin.templates.each do |template|
-              %option{value: "#{plugin.package}/#{template.id}", selected: ('selected' if "#{plugin.package}/#{template.id}" == "#{@message.template_plugin}/#{@message.template_name}")}= template.name
-  %button Save
+              %option{'data-package' => plugin.package, 'data-id' => template.id, selected: ('selected' if [plugin.package, template.id] == [@message.template_plugin_package, @message.template_plugin_id])}= template.name
   
-  :javascript
-    document.getElementById("details-form").onsubmit = () => {
-      const templateSelect = document.getElementById("template-select");
-      const template = templateSelect.options[templateSelect.selectedIndex].value;
-      if (template === "nil") {
-        document.getElementsByName("template_plugin")[0].value = null;
-        document.getElementsByName("template_name")[0].value = null;
-      } else {
-        const templateParts = template.split("/");
-        document.getElementsByName("template_plugin")[0].value = templateParts[0];
-        document.getElementsByName("template_name")[0].value = templateParts[1];
-      }
-    }
+  %h2 Content
+
+  %h3 New Section
+  %select{id: 'section-insert-select'}
+    %option Pick a kind to create a new section...
+    - @plugins.each do |plugin|
+      - if plugin.section_kinds.any?
+        %optgroup{label: plugin.name}
+          - plugin.section_kinds.each do |kind|
+            %option{'data-plugin' => plugin.package, 'data-name' => kind.id}= kind.name
+
+  %script= "const sectionKinds = #{@plugins.map { |p| [p.package, p.section_kinds.map { |k| [k.id, k.properties] }.to_h] }.to_h.to_json}"
+  %script{src: '/js/message-editor.js'}
+    
     
