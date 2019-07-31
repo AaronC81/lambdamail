@@ -242,7 +242,7 @@ class Mustermann::AST::Translator
   def self.translate(*types, &block); end
   def translate(node, *args, &block); end
 end
-class Mustermann::AST::Translator::NodeTranslator < Anonymous_Delegator_5
+class Mustermann::AST::Translator::NodeTranslator < Anonymous_Delegator_11
   def initialize(node, translator); end
   def node; end
   def self.register(*types); end
@@ -383,7 +383,7 @@ class Mustermann::AST::Expander < Mustermann::AST::Translator
   def pattern(string = nil, *keys, **filters); end
   def pattern_for(node, **options); end
 end
-class Mustermann::Caster < Anonymous_Delegator_6
+class Mustermann::Caster < Anonymous_Delegator_12
   def cast(hash); end
   def caster_for(type, &block); end
   def initialize(*types, &block); end

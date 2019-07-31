@@ -440,3 +440,9 @@ class Rack::Builder
   def use(middleware, *args, &block); end
   def warmup(prc = nil, &block); end
 end
+module Rack::Mime
+  def match?(value, matcher); end
+  def mime_type(ext, fallback = nil); end
+  def self.match?(value, matcher); end
+  def self.mime_type(ext, fallback = nil); end
+end

@@ -7,7 +7,7 @@
 #
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/capybara/all/capybara.rbi
 #
-# capybara-3.25.0
+# capybara-3.26.0
 module Capybara
   def self.HTML(html); end
   def self.add_selector(name, **options, &block); end
@@ -440,6 +440,7 @@ class Capybara::Window
 end
 class Capybara::Server
   def app; end
+  def base_url; end
   def boot; end
   def error; end
   def find_available_port(host); end
@@ -979,9 +980,9 @@ class Capybara::Node::Element < Capybara::Node::Base
   def [](attribute); end
   def allow_reload!; end
   def checked?; end
-  def click(*keys, wait: nil, **options); end
+  def click(*keys, **options); end
   def disabled?; end
-  def double_click(*keys, wait: nil, **offset); end
+  def double_click(*keys, **options); end
   def drag_to(node, **options); end
   def drop(*args); end
   def evaluate_async_script(script, *args); end
@@ -995,9 +996,10 @@ class Capybara::Node::Element < Capybara::Node::Base
   def native; end
   def obscured?; end
   def path; end
+  def perform_click_action(keys, wait: nil, **options); end
   def readonly?; end
   def reload; end
-  def right_click(*keys, wait: nil, **offset); end
+  def right_click(*keys, **options); end
   def scroll_to(pos_or_el_or_x, y = nil, align: nil, offset: nil); end
   def select_option(wait: nil); end
   def selected?; end
@@ -1393,6 +1395,7 @@ module Capybara::Selenium::Driver::FirefoxDriver
   def self.w3c?(driver); end
 end
 module Capybara::Selenium::Driver::W3CFirefoxDriver
+  def browser_version; end
   def build_node(native_node, initial_cache = nil); end
   def refresh; end
   def reset!; end

@@ -562,6 +562,7 @@ module RSpec::Core::HashImitatable
   def []=(key, value); end
   def all?(*args, &block); end
   def any?(*args, &block); end
+  def assert_valid_keys(*args, &block); end
   def assoc(*args, &block); end
   def chunk(*args, &block); end
   def chunk_while(*args, &block); end
@@ -574,6 +575,14 @@ module RSpec::Core::HashImitatable
   def compare_by_identity?(*args, &block); end
   def count(*args, &block); end
   def cycle(*args, &block); end
+  def deep_merge!(*args, &block); end
+  def deep_merge(*args, &block); end
+  def deep_stringify_keys!(*args, &block); end
+  def deep_stringify_keys(*args, &block); end
+  def deep_symbolize_keys!(*args, &block); end
+  def deep_symbolize_keys(*args, &block); end
+  def deep_transform_keys!(*args, &block); end
+  def deep_transform_keys(*args, &block); end
   def default(*args, &block); end
   def default=(*args, &block); end
   def default_proc(*args, &block); end
@@ -596,7 +605,12 @@ module RSpec::Core::HashImitatable
   def each_with_object(*args, &block); end
   def empty?(*args, &block); end
   def entries(*args, &block); end
+  def except!(*args, &block); end
+  def except(*args, &block); end
+  def exclude?(*args, &block); end
   def extra_hash_attributes; end
+  def extract!(*args, &block); end
+  def extractable_options?(*args, &block); end
   def fetch(*args, &block); end
   def fetch_values(*args, &block); end
   def find(*args, &block); end
@@ -614,6 +628,7 @@ module RSpec::Core::HashImitatable
   def hash_for_delegation; end
   def include?(*args, &block); end
   def index(*args, &block); end
+  def index_by(*args, &block); end
   def inject(*args, &block); end
   def invert(*args, &block); end
   def issue_deprecation(_method_name, *_args); end
@@ -623,6 +638,7 @@ module RSpec::Core::HashImitatable
   def keys(*args, &block); end
   def lazy(*args, &block); end
   def length(*args, &block); end
+  def many?(*args, &block); end
   def map(*args, &block); end
   def max(*args, &block); end
   def max_by(*args, &block); end
@@ -633,9 +649,11 @@ module RSpec::Core::HashImitatable
   def min_by(*args, &block); end
   def minmax(*args, &block); end
   def minmax_by(*args, &block); end
+  def nested_under_indifferent_access(*args, &block); end
   def none?(*args, &block); end
   def one?(*args, &block); end
   def partition(*args, &block); end
+  def pluck(*args, &block); end
   def rassoc(*args, &block); end
   def reduce(*args, &block); end
   def rehash(*args, &block); end
@@ -643,12 +661,16 @@ module RSpec::Core::HashImitatable
   def reject(*args, &block); end
   def replace(*args, &block); end
   def reverse_each(*args, &block); end
+  def reverse_merge!(*args, &block); end
+  def reverse_merge(*args, &block); end
+  def reverse_update(*args, &block); end
   def select!(*args, &block); end
   def select(*args, &block); end
   def self.included(klass); end
   def set_value(name, value); end
   def shift(*args, &block); end
   def size(*args, &block); end
+  def slice!(*args, &block); end
   def slice(*args, &block); end
   def slice_after(*args, &block); end
   def slice_before(*args, &block); end
@@ -656,14 +678,21 @@ module RSpec::Core::HashImitatable
   def sort(*args, &block); end
   def sort_by(*args, &block); end
   def store(*args, &block); end
+  def stringify_keys!(*args, &block); end
+  def stringify_keys(*args, &block); end
   def sum(*args, &block); end
+  def symbolize_keys!(*args, &block); end
+  def symbolize_keys(*args, &block); end
   def take(*args, &block); end
   def take_while(*args, &block); end
   def to_a(*args, &block); end
   def to_h; end
   def to_hash(*args, &block); end
+  def to_options!(*args, &block); end
+  def to_options(*args, &block); end
   def to_proc(*args, &block); end
   def to_set(*args, &block); end
+  def to_xml(*args, &block); end
   def transform_keys!(*args, &block); end
   def transform_keys(*args, &block); end
   def transform_values!(*args, &block); end
@@ -673,6 +702,10 @@ module RSpec::Core::HashImitatable
   def value?(*args, &block); end
   def values(*args, &block); end
   def values_at(*args, &block); end
+  def with_defaults!(*args, &block); end
+  def with_defaults(*args, &block); end
+  def with_indifferent_access(*args, &block); end
+  def without(*args, &block); end
   def zip(*args, &block); end
 end
 module RSpec::Core::HashImitatable::ClassMethods
@@ -924,6 +957,7 @@ end
 class RSpec::Core::OutputWrapper
   def <<(*args, &block); end
   def advise(*args, &block); end
+  def as_json(*args, &block); end
   def autoclose=(*args, &block); end
   def autoclose?(*args, &block); end
   def binmode(*args, &block); end
@@ -962,6 +996,9 @@ class RSpec::Core::OutputWrapper
   def lineno=(*args, &block); end
   def lines(*args, &block); end
   def method_missing(name, *args, &block); end
+  def nonblock(*args, &block); end
+  def nonblock=(*args, &block); end
+  def nonblock?(*args, &block); end
   def nread(*args, &block); end
   def output; end
   def output=(arg0); end

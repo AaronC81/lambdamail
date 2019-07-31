@@ -7,7 +7,7 @@
 #
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/sequel/all/sequel.rbi
 #
-# sequel-5.20.0
+# sequel-5.22.0
 module Sequel
   def self.Model(source); end
   def self.[](arg = nil, &block); end
@@ -406,10 +406,10 @@ class Sequel::SQL::VirtualRow < Sequel::BasicObject
   def >(*args); end
   def >=(*args); end
   def initialize; end
-  include Anonymous_Module_4
+  include Anonymous_Module_10
   include Sequel::SQL::OperatorBuilders
 end
-module Anonymous_Module_4
+module Anonymous_Module_10
   def method_missing(m, *args); end
 end
 class Sequel::SQL::Window < Sequel::SQL::Expression
@@ -765,6 +765,7 @@ class Sequel::Dataset
   def select_window_sql(sql); end
   def select_with_sql(sql); end
   def select_with_sql_base; end
+  def select_with_sql_prefix(sql, w); end
   def self.clause_methods(type, clauses); end
   def self.def_sql_method(mod, type, clauses); end
   def self.prepared_statements_module(code, mods, meths = nil, &block); end

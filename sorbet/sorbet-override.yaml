@@ -1,4 +1,6 @@
 ignore:
+  - ./sorbet/rbi/gems/sinatra-flash.rbi
+  - ./sorbet/rbi/gems/rubyzip.rbi
   - ./sorbet/rbi/gems/mustermann.rbi
   - ./sorbet/rbi/gems/sorbet-runtime.rbi
   - ./sorbet/rbi/sorbet-typed/lib/bundler/all/bundler.rbi
