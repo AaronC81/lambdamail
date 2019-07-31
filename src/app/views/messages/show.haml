@@ -1,58 +1,61 @@
 %h1 Message Editor
-%form#details-form{method: 'post'}
-  %input{type: 'hidden', name: '_method', value: 'PUT'}
-  
-  %button Save
-  %br
+%div#message-editor
+  %form#details-form{method: 'post'}
+    %input{type: 'hidden', name: '_method', value: 'PUT'}
+    
+    %button Save
+    %br
 
-  %h2 Properties    
-  %p
-    This email message 
-    %b= @message.status_phrase
-  %label.inline-block
-    Subject
-    %input{name: 'message_subject', value: @message.message_subject}
-  %input{name: 'template_plugin_package', type: 'hidden'}
-  %input{name: 'template_plugin_id', type: 'hidden'}
-  %label.inline-block
-    Template
-    %select#template-select{'v-on:change' => 'updateTemplateFields'}
-      %option Select one...
-      - @plugins.each do |plugin|
-        - if plugin.templates.any?
-          %optgroup{label: plugin.name}
-            - plugin.templates.each do |template|
-              %option{'data-package' => plugin.package, 'data-id' => template.id, selected: ('selected' if [plugin.package, template.id] == [@message.template_plugin_package, @message.template_plugin_id])}= template.name
-  
-  %h2 Content
+    %h2 Properties    
+    %p
+      This email message 
+      %b= @message.status_phrase
+    %label.inline-block
+      Subject
+      %input{name: 'message_subject', value: @message.message_subject}
+    %input{name: 'template_plugin_package', type: 'hidden'}
+    %input{name: 'template_plugin_id', type: 'hidden'}
+    %label.inline-block
+      Template
+      %select#template-select{'v-on:change' => 'updateTemplateFields'}
+        %option Select one...
+        - @plugins.each do |plugin|
+          - if plugin.templates.any?
+            %optgroup{label: plugin.name}
+              - plugin.templates.each do |template|
+                %option{'data-package' => plugin.package, 'data-id' => template.id, selected: ('selected' if [plugin.package, template.id] == [@message.template_plugin_package, @message.template_plugin_id])}= template.name
+    
+    %h2 Content
 
-  %input{type: 'hidden', name: 'sections_json', 'v-model' => 'JSON.stringify(sections)'}
-  #sections
-    .section{'v-for' => 'section in sections'}
-      %h3 {{ sectionKinds[section.plugin_package][section.plugin_id].name }}
-      %label
-        Title
-        %input{'v-model' => 'section.title'}
-      .section-property{'v-for' => '(type, name) in sectionKinds[section.plugin_package][section.plugin_id].properties'}
+    %input{type: 'hidden', name: 'sections_json', 'v-model' => 'JSON.stringify(sections)'}
+    #sections
+      .section{'v-for' => 'section in sections'}
+        %h3 {{ sectionKinds[section.plugin_package][section.plugin_id].name }}
         %label
-          {{ name }}
-          %input{type: 'text',   'v-if' => 'type == "text"',      'v-model' => 'section.properties[name]'}
-          %textarea{             'v-if' => 'type == "long_text"', 'v-model' => 'section.properties[name]'}
-          %input{type: 'number', 'v-if' => 'type == "number"',    'v-model' => 'section.properties[name]'}
-          %input{type: 'number', 'v-if' => 'type == "integer"',   'v-model' => 'section.properties[name]', step: 1}
+          Title
+          %input{'v-model' => 'section.title'}
+        .section-property{'v-for' => '(type, name) in sectionKinds[section.plugin_package][section.plugin_id].properties'}
+          %label
+            {{ name }}
+            %input{type: 'text',   'v-if' => 'type == "text"',      'v-model' => 'section.properties[name]'}
+            %textarea{             'v-if' => 'type == "long_text"', 'v-model' => 'section.properties[name]'}
+            %input{type: 'number', 'v-if' => 'type == "number"',    'v-model' => 'section.properties[name]'}
+            %input{type: 'number', 'v-if' => 'type == "integer"',   'v-model' => 'section.properties[name]', step: 1}
 
-  %h3 Create a New Section
-  %select#section-insert-select{'v-on:change' => 'createSection'}
-    %option{selected: 'selected'} Pick a kind...
-    - @plugins.each do |plugin|
-      - if plugin.section_kinds.any?
-        %optgroup{label: plugin.name}
-          - plugin.section_kinds.each do |kind|
-            %option{'data-package' => plugin.package, 'data-id' => kind.id}= kind.name
+    %h3 Create a New Section
+    %select#section-insert-select{'v-on:change' => 'createSection'}
+      %option{selected: 'selected'} Pick a kind...
+      - @plugins.each do |plugin|
+        - if plugin.section_kinds.any?
+          %optgroup{label: plugin.name}
+            - plugin.section_kinds.each do |kind|
+              %option{'data-package' => plugin.package, 'data-id' => kind.id}= kind.name
+
+  %iframe{src: @render_url}
 
 %script= "const sections = #{@message.sections.to_json}"
 %script= "const sectionKinds = #{@plugins.map { |p| [p.package, p.section_kinds.map { |k| [k.id, { name: k.name, properties: k.properties }] }.to_h] }.to_h.to_json}"
 %script{src: 'https://cdn.jsdelivr.net/npm/vue/dist/vue.js'}
 %script{src: '/js/message-editor.js'}
-  
-  
+    
+    

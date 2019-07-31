@@ -38,3 +38,12 @@
   background-color: rgb(243, 242, 244);
   box-shadow: inset 0px 10px 5px -5px #444;
 }
+
+#message-editor {
+  display: flex;
+  flex-direction: row;
+}
+
+#message-editor #details-form, #message-editor > iframe {
+  flex: 1 1 0;
+}
