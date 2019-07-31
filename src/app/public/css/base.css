@@ -14,7 +14,7 @@ input, textarea, select {
   margin-bottom: 10px;
 }
 
-input, label, select {
+input, label, textarea, select {
   display: block;
   min-width: 150px;
 }

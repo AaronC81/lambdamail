@@ -1,3 +1,5 @@
+require 'hashie'
+
 module LambdaMail
   module Model
     class ComposedEmailMessage
@@ -11,7 +13,7 @@ module LambdaMail
       property :message_subject, Text
       property :status, Text, default: 'draft'
       property :recipients, Text
-      has n, :email_sections
+      property :sections_json, Text
 
       def status_message
         {
@@ -20,6 +22,10 @@ module LambdaMail
           'sent_failed': 'Failed to fully send',
           'recipe': 'Recipe'
         }[status] || 'Unknown status'
+      end
+
+      def sections
+        JSON.parse(sections_json || '[]').map { |x| Hashie::Mash.new(x) }
       end
     end
   end

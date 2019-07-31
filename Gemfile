@@ -34,3 +34,5 @@ gem "selenium-webdriver", "~> 3.142"
 gem "mail", "~> 2.7"
 
 gem "sidekiq", "~> 5.2"
+
+gem "hashie", "~> 3.6"

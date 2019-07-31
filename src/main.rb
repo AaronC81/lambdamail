@@ -1,8 +1,6 @@
 require 'data_mapper'
 
 require_relative 'utilities.rb'
-require_relative 'model/email_section_property.rb'
-require_relative 'model/email_section.rb'
 require_relative 'model/composed_email_message.rb'
 require_relative 'model/special_email_message.rb'
 require_relative 'model/recipient.rb'

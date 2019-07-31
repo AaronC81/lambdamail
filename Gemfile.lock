@@ -109,6 +109,7 @@ GEM
     haml (5.1.1)
       temple (>= 0.8.0)
       tilt
+    hashie (3.6.0)
     i18n (1.6.0)
       concurrent-ruby (~> 1.0)
     json (1.8.6)
@@ -215,6 +216,7 @@ DEPENDENCIES
   datamapper (~> 1.2)
   dm-sqlite-adapter (~> 1.2)
   haml (~> 5.1)
+  hashie (~> 3.6)
   json (~> 1.6)
   mail (~> 2.7)
   mongo_mapper (~> 0.14.0)
