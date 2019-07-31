@@ -30,3 +30,5 @@ const app = new Vue({
     }
   }
 });
+
+app.updateTemplateFields({ target: document.getElementById("template-select") });

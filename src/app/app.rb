@@ -1,4 +1,4 @@
-# typed: true
+# typed: ignore
 require 'sinatra/base'
 require 'sinatra/contrib'
 require 'sinatra/flash'
@@ -125,6 +125,20 @@ module LambdaMail
           @message.save!
           flash[:success] = 'Email message updated.'
           redirect back
+        end
+
+        get '/:id/render' do |id|
+          message = Model::ComposedEmailMessage.get(id)
+          templates = []
+          Configuration.plugins.each do |p|
+            templates.push(*p.templates.map { |t| [p, t] })
+          end
+          template = templates.find do |(p, t)|
+            t.id == message.template_plugin_id && p.package == message.template_plugin_package
+          end.last
+          raise 'could not find template' unless template
+
+          template.render_email_message(message)
         end
       end
 

@@ -7,7 +7,8 @@
 
   %h2 Properties    
   %p
-    %b= @message.status_message
+    This email message 
+    %b= @message.status_phrase
   %label.inline-block
     Subject
     %input{name: 'message_subject', value: @message.message_subject}

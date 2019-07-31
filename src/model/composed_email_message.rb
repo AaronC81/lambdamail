@@ -17,10 +17,19 @@ module LambdaMail
 
       def status_message
         {
-          'draft': 'Draft',
-          'sent_success': 'Sent successfully',
-          'sent_failed': 'Failed to fully send',
-          'recipe': 'Recipe'
+          'draft' => 'Draft',
+          'sent_success' => 'Sent successfully',
+          'sent_failed' => 'Failed to fully send',
+          'recipe' => 'Recipe'
+        }[status] || 'Unknown status'
+      end
+
+      def status_phrase
+        {
+          'draft' => 'is a draft',
+          'sent_success' => 'has been sent successfully',
+          'sent_failed' => 'encountered errors while sending',
+          'recipe' => 'is a recipe'
         }[status] || 'Unknown status'
       end
 

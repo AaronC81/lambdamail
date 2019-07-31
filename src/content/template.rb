@@ -1,3 +1,4 @@
+# typed: true
 require 'sorbet-runtime'
 
 module LambdaMail
@@ -19,6 +20,16 @@ module LambdaMail
         @id = id
         @name = name
         @haml = haml
+      end
+
+      sig { params(message: Model::ComposedEmailMessage).returns(String) }
+      def render_email_message(message)
+        # TODO: this needs to convert each section into HTML
+        engine = Haml::Engine.new(haml)
+        engine.render(
+          Object.new,
+          sections: message.sections
+        )
       end
     end
   end
