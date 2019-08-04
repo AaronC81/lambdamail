@@ -105,6 +105,11 @@ module LambdaMail
           render_admin_page('messages/list', 'Messages')
         end
 
+        get '/special' do
+          @special_messages = Model::SpecialEmailMessage.all
+          render_admin_page('messages/special', 'Special Messages')
+        end
+
         post do
           @message = Model::ComposedEmailMessage.create
           write_params_into_model(params, @message)

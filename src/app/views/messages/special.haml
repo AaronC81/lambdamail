@@ -1,0 +1,20 @@
+%h1 Special Messages
+
+%p
+  Special messages are part of LambdaMail's internal mechanism for sending
+  messages. This page is intended for diagnosing issues with sending mail.
+
+%table
+  %tr
+    %th Timestamp
+    %th Recipient
+    %th Subject
+    %th
+      Job 
+      %i (Sidekiq)
+  - @special_messages.each do |message|
+    %tr
+      %td= message.created_at
+      %td= message.recipient
+      %td= message.subject
+      %td= message.sidekiq_job_id
