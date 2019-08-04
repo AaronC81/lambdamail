@@ -36,10 +36,7 @@ module LambdaMail
           body: body
         )
         message.save!
-        Mailing::SendSpecialEmailMessageWorker.perform_async(
-          message.id,
-          true
-        )
+        message.send
       end
     end
   end
