@@ -37,13 +37,20 @@ module LambdaMail
           mail_message.content_type = 'text/html'
 
           # Send with the SMTP account
-          mail_message.delivery_method :smtp, smtp_details
+          if Sidekiq::Testing.enabled?
+            mail_message.delivery_method :test
+          else
+            mail_message.delivery_method :smtp, smtp_details
+          end
           mail_message.deliver
 
           # Set the sent flag
           special_email_message.sent = true
           special_email_message.save!
         end
+
+        # TODO: testing would be good, but I don't know how
+        return if Sidekiq::Testing.enabled?
 
         # If we weren't asked to also delete the message, we can stop here
         return unless delete_from_sent
