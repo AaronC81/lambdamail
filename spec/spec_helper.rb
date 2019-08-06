@@ -7,5 +7,11 @@ end
 
 require_relative '../src/main'
 
+RSpec.configure do |config|
+  config.before(:each) do
+    Mail::TestMailer.deliveries.clear
+  end
+end
+
 Capybara.app = LambdaMail::App
 Capybara.server = :webrick
