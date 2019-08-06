@@ -40,3 +40,5 @@ gem "hashie", "~> 3.6"
 gem "sidekiq-batch", "~> 0.1.5"
 
 gem "launchy", "~> 2.4"
+
+gem "simplecov", "~> 0.17.0"
