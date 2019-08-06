@@ -1,0 +1,29 @@
+%h1 Ready to send
+
+%p Let's double check your email message before it's sent.
+
+%p
+  You're about to send this email, with the 
+  %b
+    subject
+    = @message.message_subject
+  to your
+  %b
+    full mailing list of
+    = @recipients.length
+    recipients.
+
+%form{action: 'send', method: 'POST'}
+  %button This is correct - send the email!
+
+-# TODO: use a stub unsub token, so that it exactly reflects the exact email
+-# people will receive. Use the same method and all, with an embedded doc (no CSS leaks),
+-# not just an iframe to /render.
+:javascript
+  function iframeResize(iframe) {
+    iframe.style.height = iframe.contentWindow.document.body.scrollHeight + 'px';
+  }
+%iframe{src: @render_url,
+        scrolling: 'no',
+        style: 'width: 100%; height: auto;',
+        onload: "iframeResize(this);"}

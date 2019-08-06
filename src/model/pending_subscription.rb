@@ -36,7 +36,7 @@ module LambdaMail
           body: body
         )
         message.save!
-        message.send
+        message.send_email
       end
     end
   end

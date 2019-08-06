@@ -122,6 +122,7 @@ module LambdaMail
           @message = Model::ComposedEmailMessage.get(id)
           @plugins = Configuration.plugins
           @render_url = "/admin/messages/#{id}/render"
+          @presend_url = "/admin/messages/#{id}/presend"
           render_admin_page('messages/show', 'Message')
         end
 
@@ -145,6 +146,20 @@ module LambdaMail
           raise 'could not find template' unless template
 
           template.render_email_message(message)
+        end
+
+        get '/:id/presend' do |id|
+          @message = Model::ComposedEmailMessage.get(id)
+          @recipients = Model::Recipient.all
+          @render_url = "/admin/messages/#{id}/render"
+
+          render_admin_page('messages/presend', 'Ready to send')
+        end
+
+        post '/:id/send' do |id|
+          @message = Model::ComposedEmailMessage.get(id)
+          @message.send_email
+          redirect to "#{request.path_info}/../sent"
         end
       end
 

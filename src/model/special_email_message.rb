@@ -12,7 +12,7 @@ module LambdaMail
       property :sent, Boolean, default: false
       property :sidekiq_job_id, Text, default: ''
 
-      def send
+      def send_email
         raise 'already sent' if sent
         raise 'already assigned a job' if sidekiq_job_id != ''
 

@@ -23,7 +23,7 @@ describe 'the recipients page', type: :feature, js: true do
 
   it 'allows recipients to be deleted' do
     visit '/admin/recipients'
-    find('li', text: /Anne Example/).click_link 'Delete'
+    find('tr', text: /Anne Example/).click_link 'Delete'
     expect(page).to have_content 'Joe Bloggs'
     expect(page).to have_content 'jb@example.com'
     expect(page).not_to have_content 'Anne Example'

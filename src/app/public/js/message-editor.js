@@ -1,7 +1,7 @@
 // Create the Vue app
 const app = new Vue({
   el: "#details-form",
-  data: { sections, sectionKinds },
+  data: { sections, sectionKinds, hasChanged: false },
   methods: {
     createSection: (e) => {
       // Get the selected option
@@ -27,6 +27,10 @@ const app = new Vue({
 
       document.getElementsByName("template_plugin_package")[0].value = templateOption.dataset.package;
       document.getElementsByName("template_plugin_id")[0].value = templateOption.dataset.id;
+    },
+
+    modelChange: function() {
+      this.hasChanged = true;
     }
   }
 });

@@ -1,9 +1,11 @@
 %h1 Message Editor
 %div#message-editor
-  %form#details-form{method: 'post'}
+  %form#details-form{method: 'post', 'v-on:input' => 'modelChange'}
     %input{type: 'hidden', name: '_method', value: 'PUT'}
     
     %button Save
+    %a{href: @presend_url}
+      %button{'v-bind:disabled' => 'hasChanged', type: 'button'} Send
     %br
 
     %h2 Properties    

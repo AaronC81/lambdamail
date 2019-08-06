@@ -36,3 +36,7 @@ gem "mail", "~> 2.7"
 gem "sidekiq", "~> 5.2"
 
 gem "hashie", "~> 3.6"
+
+gem "sidekiq-batch", "~> 0.1.5"
+
+gem "launchy", "~> 2.4"

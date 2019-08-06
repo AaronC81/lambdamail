@@ -32,7 +32,14 @@ button {
   transition: all 0.15s linear;
 }
 
-button:hover {
+button:disabled {
+  background-color: #bbb;
+  color: #555;
+  cursor: not-allowed;
+  border-color: #bbb;
+}
+
+button:hover:enabled {
   background-color: rgb(125, 137, 153);
   color: black;
 }
