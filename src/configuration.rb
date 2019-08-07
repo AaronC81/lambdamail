@@ -34,6 +34,28 @@ module LambdaMail
     end
 
     ##
+    # Adds a new log message to #logs and prints it.
+    #
+    # @param [String] message
+    # @param [Symbol] level One of :info, :warn, or :error.
+    # @return [void]
+    def self.log(level, message)
+      raise "invalid log level #{level}" unless %I[info warn error].include?(level)
+
+      @logs ||= []
+      puts "[#{level.to_s.upcase}] #{message}"
+      @logs << [level, message]
+    end
+
+    ##
+    # Returns all messages logged with #log.
+    #
+    # @return [Array<String>]
+    def self.logs
+      @logs
+    end
+
+    ##
     # A list of plugin classes.
     #
     # @return [Array<Plugin>]
@@ -44,18 +66,18 @@ module LambdaMail
             info_path = File.join(plugin, 'info.yaml')
             code_path = File.join(plugin, 'main.rb')
             unless File.file?(info_path)
-              puts "WARNING: Plugin #{plugin} is missing info.yaml. Ignoring."
+              log :warn, "Plugin #{plugin} is missing info.yaml. Ignoring."
               throw :finish
             end
             unless File.file?(code_path)
-              puts "WARNING: Plugin #{plugin} is missing main.rb. Ignoring."
+              log :warn, "Plugin #{plugin} is missing main.rb. Ignoring."
               throw :finish
             end
 
             info = YAML.safe_load(File.read(info_path))
             %w[name package description version].each do |required_key|
               if info[required_key].nil?
-                puts "WARNING: Plugin #{plugin} is missing key #{info} in info.yaml. Ignoring."
+                log :warn, "Plugin #{plugin} is missing key #{info} in info.yaml. Ignoring."
                 throw :finish
               end
             end
@@ -74,13 +96,13 @@ module LambdaMail
             execution_environment.instance_eval(File.read(code_path))
 
             if plugin_instance_id != execution_environment.instance_variable_get(:@plugin).object_id
-              puts "WARNING: Plugin #{plugin} re-assigned @plugin. Ignoring."
+              log :warn, "Plugin #{plugin} re-assigned @plugin. Ignoring."
               throw :finish
             end
 
             plugin_instance
           else
-            puts "WARNING: Encountered a file (#{plugin}) in the plugins directory. Ignoring."
+            log :warn, "Encountered a file (#{plugin}) in the plugins directory. Ignoring."
           end
         end
       end.compact

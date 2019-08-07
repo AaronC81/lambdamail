@@ -11,7 +11,7 @@ require_relative 'mailing/send_special_email_message_worker.rb'
 
 if defined?(RSpec)
   db = 'sqlite::memory:'
-  puts %(
+  LambdaMail::Configuration.log :warn, %(
 -----------------------------------------
      .         !!!!! WARNING !!!!!
     / \\      I am running with a temp
@@ -31,6 +31,6 @@ DataMapper.auto_upgrade!
 # Stops SQLite locking the database constantly - >=3.7 required
 DataMapper.repository.adapter.select("PRAGMA journal_mode=WAL")
 
-puts "Loaded #{LambdaMail::Configuration.plugins.length} plugins"
+LambdaMail::Configuration.log :info, "Loaded #{LambdaMail::Configuration.plugins.length} plugins"
 
 LambdaMail::App.run! if $PROGRAM_NAME == __FILE__
