@@ -13,5 +13,10 @@ RSpec.configure do |config|
   end
 end
 
+# Executes all waiting Sidekiq jobs sychronously
+def workers!
+  LambdaMail::Mailing::SendSpecialEmailMessageWorker.drain
+end
+
 Capybara.app = LambdaMail::App
 Capybara.server = :webrick
