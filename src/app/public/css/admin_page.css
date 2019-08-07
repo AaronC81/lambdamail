@@ -47,3 +47,12 @@
 #message-editor #details-form, #message-editor > iframe {
   flex: 1 1 0;
 }
+
+.alert {
+  border: 1px solid red;
+  border-radius: 5px;
+  background: rgb(224, 56, 56);
+  padding: 15px;
+  color: white;
+  margin-bottom: 5px;
+}

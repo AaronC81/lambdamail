@@ -17,6 +17,20 @@
           %img.sidebar-icon{src: '/img/icon-email.png', class: ('selected' if @name.start_with?('messages/'))}
       #content-background
         #content-foreground
+          - if @logs.filter { |(l, _)| l == :warn || l == :error }.any?
+            .alert
+              %b ALERT!
+              %p There are some critical warnings and/or errors which may affect the stability of LambdaMail.
+              %ul
+                - @logs.filter { |(l, _)| l == :warn || l == :error }.each do |(_, m)|
+                  %li= m
+          - unless @sidekiq_running
+            .alert
+              %b ALERT!
+              %p
+                The Sidekiq service isn't running.
+                %b Do not send any emails right now.
+                Ask a system administrator to restart Sidekiq.
           = styled_flash
           = yield
     #footer

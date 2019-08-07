@@ -5,6 +5,7 @@ require 'sinatra/flash'
 require 'sequel'
 Sequel::Model.plugin :timestamps
 require 'sinatra/sequel'
+require 'sidekiq/api'
 
 module LambdaMail
   class App < Sinatra::Application
@@ -38,6 +39,8 @@ module LambdaMail
 
     before do
       self.class.base_url ||= request.base_url
+      @logs = Configuration.logs
+      @sidekiq_running = (Sidekiq::ProcessSet.new.size > 0)
     end
 
     get '/' do
