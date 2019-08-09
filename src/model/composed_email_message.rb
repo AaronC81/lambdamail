@@ -21,6 +21,7 @@ module LambdaMail
       def status_message
         {
           'draft' => 'Draft',
+          'sending' => 'Sending',
           'sent_success' => 'Sent successfully',
           'sent_failed' => 'Failed to fully send',
           'recipe' => 'Recipe'
@@ -30,10 +31,11 @@ module LambdaMail
       def status_phrase
         {
           'draft' => 'is a draft',
+          'sending' => 'is being sent now',
           'sent_success' => 'has been sent successfully',
           'sent_failed' => 'encountered errors while sending',
           'recipe' => 'is a recipe'
-        }[status] || 'Unknown status'
+        }[status] || 'has an unknown status'
       end
 
       def sections
@@ -53,7 +55,6 @@ module LambdaMail
           self.save!
 
           recipients_array.each do |recipient|
-            p recipient
             body = template.render_email_message(self)
             message = Model::SpecialEmailMessage.create(
               subject: message_subject,
@@ -64,8 +65,22 @@ module LambdaMail
             message.send_email
           end
         end
+        batch.on(
+          :complete,
+          'LambdaMail::Model::ComposedEmailMessage::Callback#on_sidekiq_batch_complete',
+          'id' => id
+        )
         self.sidekiq_batch_id = batch.bid
+        self.status = 'sending'
         self.save!
+      end
+
+      class Callback
+        def on_sidekiq_batch_complete(status, options)
+          message = ComposedEmailMessage.get(options['id'])
+          message.status = status.failures == 0 ? 'sent_success' : 'sent_failed'
+          message.save!
+        end
       end
     end
   end

@@ -37,7 +37,7 @@ module LambdaMail
           mail_message.content_type = 'text/html'
 
           # Send with the SMTP account
-          if Sidekiq::Testing.enabled?
+          if defined?(Sidekiq::Testing) && Sidekiq::Testing.enabled?
             mail_message.delivery_method :test
           else
             mail_message.delivery_method :smtp, smtp_details
@@ -50,7 +50,7 @@ module LambdaMail
         end
 
         # TODO: testing would be good, but I don't know how
-        return if Sidekiq::Testing.enabled?
+        return if defined?(Sidekiq::Testing) && Sidekiq::Testing.enabled?
 
         # If we weren't asked to also delete the message, we can stop here
         return unless delete_from_sent
