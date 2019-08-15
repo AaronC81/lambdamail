@@ -101,6 +101,8 @@ module LambdaMail
         )
         recipient.save!
 
+        Model::Event.save_subscribe(recipient.email_address)
+
         render_page('subscribe/confirm', 'Subscription Confirmed')
       end
     end
@@ -120,8 +122,10 @@ module LambdaMail
         token = params[:token]
         halt 422, 'token not specified' unless token
 
-        @recipient = Model::Recipient.all.find { |r| r.unsubscribe_token == token }
-        @recipient.destroy
+        recipient = Model::Recipient.all.find { |r| r.unsubscribe_token == token }
+        recipient.destroy
+
+        Model::Event.save_unsubscribe(recipient.email_address)
 
         redirect to "#{request.path_info}/done"
       end
@@ -132,6 +136,11 @@ module LambdaMail
     end
 
     namespace '/admin' do
+      get '/dashboard' do
+        @events = Model::Event.all
+        render_admin_page('dashboard', 'Dashboard')
+      end
+
       namespace '/messages' do
         get do
           @messages = Model::ComposedEmailMessage.all
@@ -198,6 +207,9 @@ module LambdaMail
         post '/:id/send' do |id|
           @message = Model::ComposedEmailMessage.get(id)
           @message.send_email
+
+          Model::Event.save_send(@message)
+
           redirect to "#{request.path_info}/../sent"
         end
 
@@ -217,6 +229,7 @@ module LambdaMail
           write_params_into_model(params, @recipient)
           @recipient.save!
           flash[:success] = 'New recipient created.'
+          Model::Event.save_recipient_add(@recipient.email_address)
           redirect back
         end
 

@@ -1,0 +1,12 @@
+%h1 Dashboard
+
+%table
+  %tr
+    %th Time
+    %th Message
+  - @events.reverse.each do |event|
+    %tr
+      %td
+        = time_ago_in_words(event.created_at)
+        ago
+      %td= event.message

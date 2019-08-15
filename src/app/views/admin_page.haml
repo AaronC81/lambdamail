@@ -10,11 +10,11 @@
         -# 96px material rounded icons from icons8
         %img#badge{src: '/img/logo.png'}
         %a{href: '/admin/dashboard'}
-          %img.sidebar-icon{src: '/img/icon-details.png', class: ('selected' if @name.start_with?('dashboard/'))}
+          %img.sidebar-icon{src: '/img/icon-details.png', class: ('selected' if @name.start_with?('dashboard'))}
         %a{href: '/admin/recipients'}
-          %img.sidebar-icon{src: '/img/icon-group.png', class: ('selected' if @name.start_with?('recipients/'))}
+          %img.sidebar-icon{src: '/img/icon-group.png', class: ('selected' if @name.start_with?('recipients'))}
         %a{href: '/admin/messages'}
-          %img.sidebar-icon{src: '/img/icon-email.png', class: ('selected' if @name.start_with?('messages/'))}
+          %img.sidebar-icon{src: '/img/icon-email.png', class: ('selected' if @name.start_with?('messages'))}
       #content-background
         #content-foreground
           - if @logs.filter { |(l, _)| l == :warn || l == :error }.any?
