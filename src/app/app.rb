@@ -173,6 +173,10 @@ module LambdaMail
           @message.send_email
           redirect to "#{request.path_info}/../sent"
         end
+
+        get '/:id/sent' do |id|
+          render_admin_page('messages/sent', 'Sent')
+        end
       end
 
       namespace '/recipients' do
