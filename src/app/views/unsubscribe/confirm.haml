@@ -1,0 +1,10 @@
+%h1 Unsubscribe
+
+%p
+  Click the button below to unsubscribe
+  = @recipient.email_address
+  from the mailing list.
+
+%form{method: 'POST'}
+  %input{type: 'hidden', name: 'token', value: @token}
+  %button Unsubscribe

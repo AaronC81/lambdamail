@@ -105,6 +105,32 @@ module LambdaMail
       end
     end
 
+    namespace '/unsubscribe' do
+      get do
+        @token = params[:token]
+        halt 422, 'token not specified' unless @token
+
+        @recipient = Model::Recipient.all.find { |r| r.unsubscribe_token == @token }
+        halt 403, 'no recipient with this token' unless @recipient
+
+        render_page('unsubscribe/confirm', 'Unsubscribe')
+      end
+
+      post do
+        token = params[:token]
+        halt 422, 'token not specified' unless token
+
+        @recipient = Model::Recipient.all.find { |r| r.unsubscribe_token == token }
+        @recipient.destroy
+
+        redirect to "#{request.path_info}/done"
+      end
+
+      get '/done' do
+        render_page('unsubscribe/done', 'Unsubscribe Complete')
+      end
+    end
+
     namespace '/admin' do
       namespace '/messages' do
         get do
