@@ -139,6 +139,10 @@ module LambdaMail
 
         get '/:id/render' do |id|
           message = Model::ComposedEmailMessage.get(id)
+
+          next "Please select a template" unless \
+            message.template_plugin_id && message.template_plugin_package
+
           templates = []
           Configuration.plugins.each do |p|
             templates.push(*p.templates.map { |t| [p, t] })
