@@ -1,7 +1,7 @@
 describe 'the recipients page', type: :feature, js: true do
   before :all do
-    LambdaMail::Model::Recipient.create(name: 'Joe Bloggs', email_address: 'jb@example.com').save!
-    LambdaMail::Model::Recipient.create(name: 'Anne Example', email_address: 'anne@test.com').save!
+    LambdaMail::Model::Recipient.create(name: 'Joe Bloggs', email_address: 'jb@example.com').save
+    LambdaMail::Model::Recipient.create(name: 'Anne Example', email_address: 'anne@test.com').save
   end
 
   it 'lists all recipients' do

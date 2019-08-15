@@ -20,9 +20,8 @@ module LambdaMail
           id,
           true
         )
-        p job_id
         self.sidekiq_job_id = job_id
-        self.save!
+        self.save
       end
     end
   end

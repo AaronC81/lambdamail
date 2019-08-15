@@ -69,11 +69,11 @@ module LambdaMail
             name: params[:name],
             token: Utilities.generate_token
           )
-          pending_subscription.save!
+          pending_subscription.save
         else
           # The user could have entered a different name since their first subscription
           pending_subscription.name = params[:name]
-          pending_subscription.save!
+          pending_subscription.save
         end
         pending_subscription.send_confirmation_email
 
@@ -99,7 +99,7 @@ module LambdaMail
           name: name,
           salt: Utilities.generate_token
         )
-        recipient.save!
+        recipient.save
 
         Model::Event.save_subscribe(recipient.email_address)
 
@@ -155,7 +155,7 @@ module LambdaMail
         post do
           @message = Model::ComposedEmailMessage.create
           write_params_into_model(params, @message)
-          @message.save!
+          @message.save
           flash[:success] = 'New email message created.'
           redirect to "#{request.path_info}/#{@message.id}"
         end
@@ -171,7 +171,7 @@ module LambdaMail
         put '/:id' do |id|
           @message = Model::ComposedEmailMessage.get(id)
           write_params_into_model(params, @message)
-          @message.save!
+          @message.save
           flash[:success] = 'Email message updated.'
           redirect back
         end
@@ -227,7 +227,7 @@ module LambdaMail
         post do
           @recipient = Model::Recipient.create(salt: Utilities.generate_token)
           write_params_into_model(params, @recipient)
-          @recipient.save!
+          @recipient.save
           flash[:success] = 'New recipient created.'
           Model::Event.save_recipient_add(@recipient.email_address)
           redirect back

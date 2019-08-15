@@ -5,7 +5,7 @@ describe LambdaMail::Mailing::SendSpecialEmailMessageWorker do
       body: 'Bar',
       recipient: 'joe.bloggs@example.com'
     )
-    message.save!
+    message.save
 
     described_class.new.perform(message.id, false)
 

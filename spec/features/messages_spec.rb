@@ -1,7 +1,7 @@
 describe 'the messages page', type: :feature do
   before :all do
-    LambdaMail::Model::ComposedEmailMessage.create(message_subject: 'Foo').save!
-    LambdaMail::Model::ComposedEmailMessage.create.save!
+    LambdaMail::Model::ComposedEmailMessage.create(message_subject: 'Foo').save
+    LambdaMail::Model::ComposedEmailMessage.create.save
   end
 
   describe 'list view' do

@@ -52,10 +52,9 @@ module LambdaMail
 
         batch = Sidekiq::Batch.new
         batch.jobs do
-          # TODO: render individually, with an unsub link
           template = Content::Template.find(template_plugin_package, template_plugin_id)
           self.recipients = Model::Recipient.all.map(&:email_address).join(';')
-          self.save!
+          self.save
 
           Model::Recipient.each do |recipient|
             body = template.render_email_message(self, recipient)
@@ -64,7 +63,7 @@ module LambdaMail
               recipient: recipient.email_address,
               body: body
             )
-            message.save # TODO: replace save! with save elsewhere
+            message.save
             message.send_email
           end
         end
@@ -75,14 +74,14 @@ module LambdaMail
         )
         self.sidekiq_batch_id = batch.bid
         self.status = 'sending'
-        self.save!
+        self.save
       end
 
       class Callback
         def on_sidekiq_batch_complete(status, options)
           message = ComposedEmailMessage.get(options['id'])
           message.status = status.failures == 0 ? 'sent_success' : 'sent_failed'
-          message.save!
+          message.save
         end
       end
     end

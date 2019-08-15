@@ -46,7 +46,7 @@ module LambdaMail
 
           # Set the sent flag
           special_email_message.sent = true
-          special_email_message.save!
+          special_email_message.save
         end
 
         # TODO: testing would be good, but I don't know how
