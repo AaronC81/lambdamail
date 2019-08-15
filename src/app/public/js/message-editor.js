@@ -25,8 +25,8 @@ const app = new Vue({
     updateTemplateFields: (e) => {
       const templateOption = e.target.options[e.target.selectedIndex];
 
-      document.getElementsByName("template_plugin_package")[0].value = templateOption.dataset.package;
-      document.getElementsByName("template_plugin_id")[0].value = templateOption.dataset.id;
+      document.getElementsByName("template_plugin_package")[0].value = templateOption.dataset.package || '';
+      document.getElementsByName("template_plugin_id")[0].value = templateOption.dataset.id || '';
     },
 
     modelChange: function() {

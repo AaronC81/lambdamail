@@ -6,6 +6,9 @@ require 'sequel'
 Sequel::Model.plugin :timestamps
 require 'sinatra/sequel'
 require 'sidekiq/api'
+require 'action_view'
+
+include ActionView::Helpers::DateHelper
 
 module LambdaMail
   class App < Sinatra::Application
@@ -141,7 +144,9 @@ module LambdaMail
           message = Model::ComposedEmailMessage.get(id)
 
           next "Please select a template" unless \
-            message.template_plugin_id && message.template_plugin_package
+            message.template_plugin_id && message.template_plugin_package &&
+            message.template_plugin_id != '' &&
+            message.template_plugin_package != ''
 
           templates = []
           Configuration.plugins.each do |p|

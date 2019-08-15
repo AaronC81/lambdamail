@@ -219,6 +219,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  actionview (~> 5.2)
   active_model_serializers (~> 0.10.10)
   activemodel-serializers-xml (~> 1.0)
   bson_ext (~> 1.12)

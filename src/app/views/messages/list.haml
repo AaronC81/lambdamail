@@ -3,7 +3,16 @@
 %form{method: 'POST'}
   %button Create
 
-%ul
+%table
+  %tr
+    %th Subject
+    %th Created
+    %th Status
   - @messages.each do |message|
-    %a{href: "messages/#{message.id}"}
-      %li= message.message_subject || '<i>No subject<i>'
+    %tr
+      %td
+        %a{href: "messages/#{message.id}"}= message.message_subject.nil? || message.message_subject == '' ? '<i>No subject<i>' : message.message_subject
+      %td
+        = time_ago_in_words(message.created_at)
+        ago
+      %td= message.status_message
