@@ -3,10 +3,11 @@
   %form#details-form{method: 'post', 'v-on:input' => 'modelChange'}
     %input{type: 'hidden', name: '_method', value: 'PUT'}
     
-    %button Save
-    %a{href: @presend_url}
-      %button{'v-bind:disabled' => 'hasChanged', type: 'button'} Send
-    %br
+    - if @message.sendable?
+      %button Save
+      %a{href: @presend_url}
+        %button{'v-bind:disabled' => 'hasChanged', type: 'button'} Send
+      %br
 
     %h2 Properties    
     %p
@@ -14,12 +15,12 @@
       %b= @message.status_phrase
     %label.inline-block
       Subject
-      %input{name: 'message_subject', value: @message.message_subject}
+      %input{name: 'message_subject', value: @message.message_subject, disabled: !@message.sendable?}
     %input{name: 'template_plugin_package', type: 'hidden'}
     %input{name: 'template_plugin_id', type: 'hidden'}
     %label.inline-block
       Template
-      %select#template-select{'v-on:change' => 'updateTemplateFields'}
+      %select#template-select{'v-on:change' => 'updateTemplateFields', disabled: !@message.sendable?}
         %option Select one...
         - @plugins.each do |plugin|
           - if plugin.templates.any?
@@ -35,23 +36,24 @@
         %h3 {{ sectionKinds[section.plugin_package][section.plugin_id].name }}
         %label
           Title
-          %input{'v-model' => 'section.title'}
+          %input{'v-model' => 'section.title', disabled: !@message.sendable?}
         .section-property{'v-for' => '(type, name) in sectionKinds[section.plugin_package][section.plugin_id].properties'}
           %label
             {{ name }}
-            %input{type: 'text',   'v-if' => 'type == "text"',      'v-model' => 'section.properties[name]'}
-            %textarea{             'v-if' => 'type == "long_text"', 'v-model' => 'section.properties[name]'}
-            %input{type: 'number', 'v-if' => 'type == "number"',    'v-model' => 'section.properties[name]'}
-            %input{type: 'number', 'v-if' => 'type == "integer"',   'v-model' => 'section.properties[name]', step: 1}
+            %input{type: 'text',   'v-if' => 'type == "text"',      'v-model' => 'section.properties[name]', disabled: !@message.sendable?}
+            %textarea{             'v-if' => 'type == "long_text"', 'v-model' => 'section.properties[name]', disabled: !@message.sendable?}
+            %input{type: 'number', 'v-if' => 'type == "number"',    'v-model' => 'section.properties[name]', disabled: !@message.sendable?}
+            %input{type: 'number', 'v-if' => 'type == "integer"',   'v-model' => 'section.properties[name]', disabled: !@message.sendable?, step: 1}
 
-    %h3 Create a New Section
-    %select#section-insert-select{'v-on:change' => 'createSection'}
-      %option{selected: 'selected'} Pick a kind...
-      - @plugins.each do |plugin|
-        - if plugin.section_kinds.any?
-          %optgroup{label: plugin.name}
-            - plugin.section_kinds.each do |kind|
-              %option{'data-package' => plugin.package, 'data-id' => kind.id}= kind.name
+    - if @message.sendable?
+      %h3 Create a New Section
+      %select#section-insert-select{'v-on:change' => 'createSection'}
+        %option{selected: 'selected'} Pick a kind...
+        - @plugins.each do |plugin|
+          - if plugin.section_kinds.any?
+            %optgroup{label: plugin.name}
+              - plugin.section_kinds.each do |kind|
+                %option{'data-package' => plugin.package, 'data-id' => kind.id}= kind.name
 
   %iframe{src: @render_url}
 
