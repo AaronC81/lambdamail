@@ -1,0 +1,15 @@
+body {
+  background-color: rgb(243, 242, 244);
+}
+
+#container {
+  max-width: 800px;
+  margin: 0 auto;
+  margin-top: 20px;
+  padding: 20px;
+  background-color: white;
+}
+
+#container input {
+  width: 100%;
+}
