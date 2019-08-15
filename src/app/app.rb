@@ -60,8 +60,12 @@ module LambdaMail
       end
 
       post do
-        # TODO: an "only" assertion method might be nice
-        # TODO: check user isn't already on the mailing list
+        if Model::Recipient.all.find { |r| r.email_address == params[:email_address] }
+          # This user is already subscribed, so silently do nothing.
+          # We don't want to leak who is subscribed by giving a "You're already subscribed" message.
+          redirect to "#{request.path_info}/done"
+        end
+
         pending_subscription = Model::PendingSubscription.first(email_address: params[:email_address])
         if pending_subscription.nil?
           pending_subscription = Model::PendingSubscription.create(
