@@ -54,15 +54,14 @@ module LambdaMail
         batch.jobs do
           # TODO: render individually, with an unsub link
           template = Content::Template.find(template_plugin_package, template_plugin_id)
-          recipients_array = Model::Recipient.all.map(&:email_address)
-          self.recipients = recipients_array.join(';')
+          self.recipients = Model::Recipient.all.map(&:email_address).join(';')
           self.save!
 
-          recipients_array.each do |recipient|
-            body = template.render_email_message(self)
+          Model::Recipient.each do |recipient|
+            body = template.render_email_message(self, recipient)
             message = Model::SpecialEmailMessage.create(
               subject: message_subject,
-              recipient: recipient,
+              recipient: recipient.email_address,
               body: body
             )
             message.save # TODO: replace save! with save elsewhere

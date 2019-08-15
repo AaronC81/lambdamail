@@ -36,13 +36,16 @@ module LambdaMail
         template
       end
 
-      sig { params(message: Model::ComposedEmailMessage).returns(String) }
-      def render_email_message(message)
+      sig { params(message: Model::ComposedEmailMessage, recipient: Model::Recipient).returns(String) }
+      def render_email_message(message, recipient=nil)
         # TODO: this needs to convert each section into HTML
         engine = Haml::Engine.new(haml)
         engine.render(
           Object.new,
-          sections: message.sections
+          sections: message.sections,
+          recipient: recipient,
+          unsubscribe_url: (App.base_url +
+            "/unsubscribe?token=#{recipient.unsubscribe_token}" if recipient)
         )
       end
     end
