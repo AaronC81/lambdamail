@@ -1,3 +1,5 @@
+require 'digest'
+
 module LambdaMail
   module Model
     class Recipient
@@ -8,6 +10,11 @@ module LambdaMail
 
       property :name, Text
       property :email_address, Text, unique: true, required: true
+      property :salt, Text
+
+      def unsubscribe_token
+        Digest::SHA256.hexdigest(name + email_address + salt)
+      end
     end
   end
 end

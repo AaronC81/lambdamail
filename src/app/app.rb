@@ -96,7 +96,8 @@ module LambdaMail
 
         recipient = Model::Recipient.new(
           email_address: email_address,
-          name: name
+          name: name,
+          salt: Utilities.generate_token
         )
         recipient.save!
 
@@ -186,7 +187,7 @@ module LambdaMail
         end
 
         post do
-          @recipient = Model::Recipient.create
+          @recipient = Model::Recipient.create(salt: Utilities.generate_token)
           write_params_into_model(params, @recipient)
           @recipient.save!
           flash[:success] = 'New recipient created.'
