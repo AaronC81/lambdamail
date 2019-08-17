@@ -44,3 +44,5 @@ gem "launchy", "~> 2.4"
 gem "simplecov", "~> 0.17.0"
 
 gem "actionview", "~> 5.2"
+
+gem "redcarpet", "~> 3.5"

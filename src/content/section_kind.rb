@@ -1,4 +1,5 @@
 require 'sorbet-runtime'
+require 'redcarpet'
 
 module LambdaMail
   module Content
@@ -40,6 +41,11 @@ module LambdaMail
       def render(properties)
         raise "#{id} (#{name}) is missing a renderer" unless renderer
         renderer.call(Hashie::Mash.new(properties))
+      end
+
+      sig { params(md: String).returns(String) }
+      def markdown(md)
+        Redcarpet::Markdown.new(Redcarpet::Render::HTML).render(md)
       end
     end
   end
