@@ -37,6 +37,13 @@ module LambdaMail
       end
     end
 
+    def auth!
+      unless session[:authenticated]
+        flash[:error] = 'You need to log in to access this page.'
+        redirect to '/admin/login'
+      end
+    end
+
     class << self
       attr_accessor :base_url
     end
@@ -141,6 +148,10 @@ module LambdaMail
     end
 
     namespace '/admin' do
+      before do
+        auth! unless request.path_info == '/admin/login'
+      end
+
       namespace '/login' do
         get do
           render_page('login', 'Login')
