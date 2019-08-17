@@ -8,7 +8,8 @@
     %th Subject
     %th Created
     %th Status
-  - @messages.each do |message|
+    %th Actions
+  - @messages.reverse.each do |message|
     %tr
       %td
         %a{href: "messages/#{message.id}"}= message.message_subject.nil? || message.message_subject == '' ? '<i>No subject<i>' : message.message_subject
@@ -16,3 +17,10 @@
         = time_ago_in_words(message.created_at)
         ago
       %td= message.status_message
+      %td
+        %form.inline{method: 'post',
+              action: "messages/#{message.id}",
+              id: "deleteLink#{message.id}Form"}
+          %input{type: 'hidden', name: '_method', value: 'DELETE'}
+          %a{href: '#',
+             onclick: "if (confirm('Are you sure you want to delete this message?')) document.getElementById('deleteLink#{message.id}Form').submit()"} Delete

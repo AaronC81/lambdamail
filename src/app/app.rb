@@ -180,6 +180,13 @@ module LambdaMail
           redirect back
         end
 
+        delete '/:id' do |id|
+          @message = Model::ComposedEmailMessage.get(id)
+          @message.destroy
+          flash[:success] = 'Email message deleted.'
+          redirect back
+        end
+
         get '/:id/render' do |id|
           message = Model::ComposedEmailMessage.get(id)
 
