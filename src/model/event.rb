@@ -18,7 +18,7 @@ module LambdaMail
         when 'unsubscribe'
           "#{data} unsubscribed"
         when 'send'
-          "Message \"#{ComposedEmailMessage.get(data.to_i).message_subject}\" sent"
+          "Message \"#{ComposedEmailMessage.get(data.to_i)&.message_subject || '<i>deleted</i>'}\" sent"
         else
           "???"
         end
