@@ -247,6 +247,13 @@ module LambdaMail
           redirect back
         end
       end
+
+      namespace '/settings' do
+        get do
+          @config = Configuration
+          render_admin_page('settings/index', 'Settings')
+        end
+      end
     end
   end
 end

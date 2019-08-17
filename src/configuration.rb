@@ -177,7 +177,6 @@ module LambdaMail
     FileUtils.mkdir_p(CONFIGURATION_DIR)
     File.write(configuration_file, {
       mailing_list: {
-        enable_user_signups: true,
         emailer_account: {
           kind: nil,
           smtp_details: {

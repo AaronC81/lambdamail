@@ -1,0 +1,46 @@
+%h1 Settings
+
+%h2 Plugins
+%p
+  These plugins were loaded from:
+  = @config.plugins_directory
+%table
+  %tr
+    %th Package
+    %th Name
+    %th Templates
+    %th Section Kinds
+  - @config.plugins.each do |plugin|
+    %tr
+      %td= plugin.package
+      %td= plugin.name
+      %td
+        - if plugin.templates.any?
+          %ul
+            - plugin.templates.each do |template|
+              %li= "#{template.name} (#{template.id})"
+        - else
+          %i None
+      %td
+        - if plugin.section_kinds.any?
+          %ul
+            - plugin.section_kinds.each do |section_kind|
+              %li= "#{section_kind.name} (#{section_kind.id})"
+        - else
+          %i None
+
+%h2 Configuration
+%p
+  The configuration file is located at:
+  = @config.configuration_file
+
+%p
+  Mail is being sent from the account
+  = @config.load_configuration_file['mailing_list']['emailer_account']['smtp_details']['user_name']
+  using the mail server 
+  = @config.load_configuration_file['mailing_list']['emailer_account']['smtp_details']['address']
+  port
+  = @config.load_configuration_file['mailing_list']['emailer_account']['smtp_details']['port']
+
+%p
+  To view or edit full SMTP or IMAP configuration details, please see the JSON configuration file.
