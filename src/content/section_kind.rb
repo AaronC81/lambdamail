@@ -14,6 +14,9 @@ module LambdaMail
       sig { returns(T::Hash[String, Symbol]) }
       attr_reader :properties
 
+      sig { returns(T.nilable(T.proc.params(property_values: T::Hash[String, String]).returns(String))) }
+      attr_reader :renderer
+
       sig { params(id: String, name: String).void }
       def initialize(id:, name:)
         @id = id
@@ -28,6 +31,15 @@ module LambdaMail
         raise "already defined property #{name}" if properties[name]
 
         properties[name] = type
+      end
+
+      def to_render(&block)
+        @renderer = block
+      end
+
+      def render(properties)
+        raise "#{id} (#{name}) is missing a renderer" unless renderer
+        renderer.call(Hashie::Mash.new(properties))
       end
     end
   end

@@ -109,6 +109,40 @@ module LambdaMail
     end
 
     ##
+    # Returns the section kind matching the given plugin package and ID.
+    # Throws an exception if it can't be found.
+    #
+    # @return [Content::SectionKind]
+    def self.find_section_kind(package, id)
+      section_kinds = []
+      Configuration.plugins.each do |p|
+        section_kinds.push(*p.section_kinds.map { |sk| [p, sk] })
+      end
+      section_kind = section_kinds.find do |(p, sk)|
+        sk.id == id && p.package == package
+      end.last
+      raise 'could not find section kind' unless section_kind
+      section_kind
+    end
+
+    ##
+    # Returns the template matching the given plugin package and ID.
+    # Throws an exception if it can't be found.
+    #
+    # @return [Content::Template]
+    def self.find_template(package, id)
+      templates = []
+      Configuration.plugins.each do |p|
+        templates.push(*p.templates.map { |t| [p, t] })
+      end
+      template = templates.find do |(p, t)|
+        t.id == id && p.package == package
+      end.last
+      raise 'could not find template' unless template
+      template
+    end
+
+    ##
     # Returns the contents of the main configuration file as a Hash.
     # TODO: use yaml instead
     #

@@ -57,7 +57,7 @@ module LambdaMail
 
         batch = Sidekiq::Batch.new
         batch.jobs do
-          template = Content::Template.find(template_plugin_package, template_plugin_id)
+          template = Configuration.find_template(template_plugin_package, template_plugin_id)
           self.recipients = Model::Recipient.all.map(&:email_address).join(';')
           self.save
 

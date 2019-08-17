@@ -195,14 +195,10 @@ module LambdaMail
             message.template_plugin_id != '' &&
             message.template_plugin_package != ''
 
-          templates = []
-          Configuration.plugins.each do |p|
-            templates.push(*p.templates.map { |t| [p, t] })
-          end
-          template = templates.find do |(p, t)|
-            t.id == message.template_plugin_id && p.package == message.template_plugin_package
-          end.last
-          raise 'could not find template' unless template
+          template = Configuration.find_template(
+            message.template_plugin_package,
+            message.template_plugin_id
+          )
 
           template.render_email_message(message)
         end
