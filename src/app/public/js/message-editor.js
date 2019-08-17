@@ -36,3 +36,7 @@ const app = new Vue({
 });
 
 app.updateTemplateFields({ target: document.getElementById("template-select") });
+
+window.onbeforeunload = function() {
+  return "Are you sure you want to exit the message editor?";
+}
