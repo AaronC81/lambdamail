@@ -10,6 +10,10 @@ require_relative 'app/app.rb'
 require_relative 'configuration.rb'
 require_relative 'mailing/send_special_email_message_worker.rb'
 
+module LambdaMail
+  VERSION = '1.0.0'
+end
+
 if defined?(RSpec)
   db = 'sqlite::memory:'
   LambdaMail::Configuration.log :warn, %(

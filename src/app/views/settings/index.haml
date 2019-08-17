@@ -54,3 +54,11 @@
   = succeed "." do
     If you'd like to back up the database, you can view an up-to-date dump
     %a{href: '/admin/settings/dump'} here
+
+%h2 About
+%p The LambdaMail mass-mailing system
+%p Created by Aaron Christiansen (aaronc.cc)
+
+%ul
+  - @versions.each do |n, v|
+    %li= "#{n}: version #{v}"

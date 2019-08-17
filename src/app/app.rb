@@ -284,6 +284,13 @@ module LambdaMail
       namespace '/settings' do
         get do
           @config = Configuration
+          @versions = {
+            'LambdaMail' => LambdaMail::VERSION,
+            'Ruby' => RUBY_VERSION,
+            'Sidekiq' => Sidekiq::VERSION,
+            'DataMapper' => DataMapper::VERSION,
+            'SQLite' => `sqlite3 --version`,
+          }
           render_admin_page('settings/index', 'Settings')
         end
 
