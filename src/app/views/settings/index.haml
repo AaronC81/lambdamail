@@ -44,3 +44,13 @@
 
 %p
   To view or edit full SMTP or IMAP configuration details, please see the JSON configuration file.
+
+%h2 Database
+%p
+  The database file is located at:
+  = @config.database_file
+
+%p
+  = succeed "." do
+    If you'd like to back up the database, you can view an up-to-date dump
+    %a{href: '/admin/settings/dump'} here

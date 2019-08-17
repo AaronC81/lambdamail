@@ -286,6 +286,11 @@ module LambdaMail
           @config = Configuration
           render_admin_page('settings/index', 'Settings')
         end
+
+        get '/dump' do
+          content_type 'text/plain'
+          `sqlite3 #{Configuration.database_file} .dump`
+        end
       end
     end
   end
