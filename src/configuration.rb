@@ -93,7 +93,13 @@ module LambdaMail
 
             execution_environment = Object.new
             execution_environment.instance_variable_set(:@plugin, plugin_instance)
-            execution_environment.instance_eval(File.read(code_path))
+
+            begin
+              execution_environment.instance_eval(File.read(code_path))
+            rescue => e
+              log :warn, "Plugin #{plugin} threw an exception: #{e}"
+              throw :finish
+            end
 
             if plugin_instance_id != execution_environment.instance_variable_get(:@plugin).object_id
               log :warn, "Plugin #{plugin} re-assigned @plugin. Ignoring."
