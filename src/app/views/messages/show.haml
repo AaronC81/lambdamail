@@ -4,8 +4,8 @@
     %input{type: 'hidden', name: '_method', value: 'PUT'}
     
     - if @message.sendable?
-      %button Save
-      %a{href: @presend_url}
+      %button{onclick: 'window.onbeforeunload = null;'} Save
+      %a{onclick: 'window.onbeforeunload = null;', href: @presend_url}
         %button{'v-bind:disabled' => 'hasChanged', type: 'button'} Send
       %br
 
