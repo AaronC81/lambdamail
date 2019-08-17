@@ -24,7 +24,6 @@ module LambdaMail
 
       sig { params(message: Model::ComposedEmailMessage, recipient: Model::Recipient).returns(String) }
       def render_email_message(message, recipient=nil)
-        # TODO: this needs to convert each section into HTML
         engine = Haml::Engine.new(haml)
         rendered_sections = message.sections.map do |section|
           section_kind = Configuration.find_section_kind(
