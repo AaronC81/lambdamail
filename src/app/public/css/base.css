@@ -56,6 +56,12 @@ button:hover:enabled {
   border-color: #007500;
 }
 
+.flash.error {
+  background-color: rgb(255, 47, 47);
+  border-color: red;
+  color: white;
+}
+
 .inline-block {
   display: inline-block;
 }

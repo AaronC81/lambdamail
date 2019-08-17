@@ -10,6 +10,6 @@ body {
   background-color: white;
 }
 
-#container input {
+#container input, button {
   width: 100%;
 }

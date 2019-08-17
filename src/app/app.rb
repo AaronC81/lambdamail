@@ -7,6 +7,7 @@ Sequel::Model.plugin :timestamps
 require 'sinatra/sequel'
 require 'sidekiq/api'
 require 'action_view'
+require 'digest'
 
 include ActionView::Helpers::DateHelper
 
@@ -140,6 +141,27 @@ module LambdaMail
     end
 
     namespace '/admin' do
+      namespace '/login' do
+        get do
+          render_page('login', 'Login')
+        end
+
+        post do
+          unless File.file?(Configuration.password_file)
+            flash[:error] = "There is no password file. Please create #{Configuration.password_file}, containing a SHA256 hash of a chosen password."
+            redirect back
+          end
+
+          if File.read(Configuration.password_file).chomp == Digest::SHA256.hexdigest(params[:password])
+            session[:authenticated] = true
+            redirect to '/admin/dashboard'
+          else
+            flash[:error] = "Incorrect password."
+            redirect back
+          end
+        end
+      end
+
       get '/dashboard' do
         @events = Model::Event.all
         render_admin_page('dashboard', 'Dashboard')

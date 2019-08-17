@@ -34,6 +34,14 @@ module LambdaMail
     end
 
     ##
+    # The path to the password file.
+    #
+    # @return [String]
+    def self.password_file
+      "#{CONFIGURATION_DIR}/password.txt"
+    end
+
+    ##
     # Adds a new log message to #logs and prints it.
     #
     # @param [String] message
