@@ -42,6 +42,10 @@ module LambdaMail
         JSON.parse((sections_json.nil? || sections_json == '') ? '[]' : sections_json).map { |x| Hashie::Mash.new(x) }
       end
 
+      def has_subject?
+        !(message_subject == '' || message_subject.nil?)
+      end
+
       def sendable?
         status == 'draft'
       end
@@ -49,6 +53,7 @@ module LambdaMail
       def send_email
         raise 'not sendable' unless sendable?
         raise 'already assigned a batch' if sidekiq_batch_id != ''
+        raise 'can\'t send an email with no subject' unless has_subject?
 
         batch = Sidekiq::Batch.new
         batch.jobs do
