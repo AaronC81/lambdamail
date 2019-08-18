@@ -56,7 +56,7 @@ module LambdaMail
     end
 
     get '/' do
-      raise 'nyi'
+      redirect to '/subscribe'
     end
 
     namespace '/subscribe' do
