@@ -14,6 +14,7 @@ include ActionView::Helpers::DateHelper
 module LambdaMail
   class App < Sinatra::Application
     enable :sessions
+    disable :show_exceptions
     register Sinatra::Flash
 
     def render_admin_page(name, title, **locals)
@@ -152,6 +153,24 @@ module LambdaMail
         auth! unless request.path_info == '/admin/login'
       end
 
+      error DataMapper::ObjectNotFoundError do
+        status 404
+        @status = 404
+        render_admin_page('error', 'Item not found')
+      end
+
+      not_found do
+        status 404
+        @status = 404
+        render_admin_page('error', 'Item not found')
+      end
+
+      error Exception do
+        status 500
+        @status = 500
+        render_admin_page('error', 'Server error')
+      end
+
       namespace '/login' do
         get do
           render_page('login', 'Login')
@@ -198,7 +217,7 @@ module LambdaMail
         end
 
         get '/:id' do |id|
-          @message = Model::ComposedEmailMessage.get(id)
+          @message = Model::ComposedEmailMessage.get!(id)
           @plugins = Configuration.plugins
           @render_url = "/admin/messages/#{id}/render"
           @presend_url = "/admin/messages/#{id}/presend"
@@ -206,7 +225,7 @@ module LambdaMail
         end
 
         put '/:id' do |id|
-          @message = Model::ComposedEmailMessage.get(id)
+          @message = Model::ComposedEmailMessage.get!(id)
           write_params_into_model(params, @message)
           @message.save
           flash[:success] = 'Email message updated.'
@@ -214,14 +233,14 @@ module LambdaMail
         end
 
         delete '/:id' do |id|
-          @message = Model::ComposedEmailMessage.get(id)
+          @message = Model::ComposedEmailMessage.get!(id)
           @message.destroy
           flash[:success] = 'Email message deleted.'
           redirect back
         end
 
         get '/:id/render' do |id|
-          message = Model::ComposedEmailMessage.get(id)
+          message = Model::ComposedEmailMessage.get!(id)
 
           next "Please select a template" unless \
             message.template_plugin_id && message.template_plugin_package &&
@@ -237,7 +256,7 @@ module LambdaMail
         end
 
         get '/:id/presend' do |id|
-          @message = Model::ComposedEmailMessage.get(id)
+          @message = Model::ComposedEmailMessage.get!(id)
           @recipients = Model::Recipient.all
           @render_url = "/admin/messages/#{id}/render"
 
@@ -245,7 +264,7 @@ module LambdaMail
         end
 
         post '/:id/send' do |id|
-          @message = Model::ComposedEmailMessage.get(id)
+          @message = Model::ComposedEmailMessage.get!(id)
           @message.send_email
 
           Model::Event.save_send(@message)
@@ -274,7 +293,7 @@ module LambdaMail
         end
 
         delete '/:id' do |id|
-          @recipient = Model::Recipient.get(id)
+          @recipient = Model::Recipient.get!(id)
           @recipient.destroy
           flash[:success] = 'Recipient deleted.'
           redirect back

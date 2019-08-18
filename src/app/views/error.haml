@@ -1,0 +1,9 @@
+- if @status == 404
+  %h1 Item not found
+  %p The item or page you have requested could not be found. It may have been deleted.
+- elsif @status == 50
+  %h1 Server error
+  %p The server has encountered an error. Please tell a system administrator.
+- else
+  %h1 Unknown error
+  %p An unknown error has occured. Please try again.
