@@ -224,7 +224,7 @@ DEPENDENCIES
   active_model_serializers (~> 0.10.10)
   activemodel-serializers-xml (~> 1.0)
   bson_ext (~> 1.12)
-  capybara (~> 3.15)
+  capybara (>= 3.15)
   datamapper (~> 1.2)
   dm-sqlite-adapter (~> 1.2)
   haml (~> 5.1)

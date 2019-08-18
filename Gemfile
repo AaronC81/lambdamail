@@ -2,7 +2,7 @@ source :rubygems
 
 gem "rspec", "~> 3.8"
 gem "sinatra", "~> 2.0"
-gem "capybara", "~> 3.15"
+gem "capybara", ">= 3.15"
 gem 'json', '~>1.6'
 
 gem "mongo_mapper", "~> 0.14.0"
