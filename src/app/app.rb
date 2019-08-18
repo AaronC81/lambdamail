@@ -39,7 +39,7 @@ module LambdaMail
     end
 
     def auth!
-      unless session[:authenticated]
+      unless session[:authenticated] || defined?(RSpec)
         flash[:error] = 'You need to log in to access this page.'
         redirect to '/admin/login'
       end
