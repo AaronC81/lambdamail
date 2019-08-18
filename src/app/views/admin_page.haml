@@ -19,12 +19,12 @@
           %img.sidebar-icon{src: '/img/icon-settings.png', class: ('selected' if @name.start_with?('settings'))}
       #content-background
         #content-foreground
-          - if @logs.filter { |(l, _)| l == :warn || l == :error }.any?
+          - if @logs.select { |(l, _)| l == :warn || l == :error }.any?
             .alert
               %b ALERT!
               %p There are some critical warnings and/or errors which may affect the stability of LambdaMail.
               %ul
-                - @logs.filter { |(l, _)| l == :warn || l == :error }.each do |(_, m)|
+                - @logs.select { |(l, _)| l == :warn || l == :error }.each do |(_, m)|
                   %li= m
           - unless @sidekiq_running
             .alert
