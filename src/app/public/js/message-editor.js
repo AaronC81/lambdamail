@@ -1,3 +1,14 @@
+function generateSectionKey() {
+  return Math.floor(Math.random() * 10000000);
+}
+
+// Vue needs each section to have a key for fancy animations
+// Let's just assign them randomly
+// They don't need to be preserved, but it doesn't matter if they are
+sections.forEach(section => {
+  section.key = generateSectionKey();
+});
+
 // Create the Vue app
 const app = new Vue({
   el: "#details-form",
@@ -8,10 +19,9 @@ const app = new Vue({
       const select = e.target;
       const option = select.options[select.selectedIndex];
       
-      console.log(option.dataset);
-
       // Create the new section
       sections.push({
+        key: generateSectionKey(),
         title: 'Untitled',
         plugin_package: option.dataset.package,
         plugin_id: option.dataset.id,
@@ -31,6 +41,23 @@ const app = new Vue({
 
     modelChange: function() {
       this.hasChanged = true;
+    },
+
+    moveSectionUp: function(index) {
+      if (index == 0) return;
+      [this.sections[index], this.sections[index - 1]] = [this.sections[index - 1], this.sections[index]];
+      this.$forceUpdate();
+    },
+
+    moveSectionDown: function(index) {
+      if (index == this.sections.length - 1) return;
+      [this.sections[index], this.sections[index + 1]] = [this.sections[index + 1], this.sections[index]];
+      this.$forceUpdate();
+    },
+
+    deleteSection: function(index) {
+      this.sections.splice(index, 1);
+      this.$forceUpdate();
     }
   }
 });

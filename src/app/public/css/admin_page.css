@@ -56,3 +56,20 @@
   color: white;
   margin-bottom: 5px;
 }
+
+.section-list-move {
+  transition: transform 0.5s;
+}
+
+.section-list-enter-active, .section-list-leave-active {
+  transition: all 0.5s;
+}
+
+.section-list-leave-active {
+  position: absolute;
+}
+
+.section-list-enter, .section-list-leave-to {
+  opacity: 0;
+  transform: translateX(50px);
+}
