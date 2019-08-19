@@ -292,6 +292,27 @@ module LambdaMail
           redirect back
         end
 
+        get '/many' do
+          render_admin_page('recipients/many', 'Add Many Recipients')
+        end
+
+        post '/many' do
+          recipients = params[:recipients]
+          count = 0
+          recipients.split("\n").each do |email|
+            next if email.chomp == ''
+            recipient = Model::Recipient.create(
+              email_address: email,
+              salt: Utilities.generate_token
+            )
+            recipient.save
+            Model::Event.save_recipient_add(recipient.email_address)
+            count += 1
+          end
+          flash[:success] = "Added #{count} recipients."
+          redirect to '/admin/recipients'
+        end
+
         delete '/:id' do |id|
           @recipient = Model::Recipient.get!(id)
           @recipient.destroy
