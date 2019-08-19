@@ -1,10 +1,27 @@
 %h1 Subscribe
 
+#thanks{style: 'display: none'}
+  %h2{style: 'text-align: center'} Thank you for subscribing!
+
 %form{method: 'POST'}
   %label
     Email Address
-    %input{name: 'email_address'}
+    %input{name: 'email_address', value: ''}
   %label
     Name
-    %input{name: 'name'}
+    %input{name: 'name', value: ''}
   %button Subscribe
+
+:javascript
+  if (new URL(location.href).searchParams.get("done") != null) {
+    const thanks = document.getElementById("thanks");
+    const form = document.getElementsByTagName("form")[0];
+
+    thanks.style.display = "block";
+    form.style.display = "none";
+
+    setInterval(() => {
+      thanks.style.display = "none";
+      form.style.display = "block";
+    }, 3000);
+  }

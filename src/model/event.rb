@@ -15,6 +15,8 @@ module LambdaMail
           "#{data} subscribed"
         when 'recipient_add'
           "#{data} was added by an admin"
+        when'subscribe_kiosk'
+          "#{data} subscribed using kiosk mode"
         when 'unsubscribe'
           "#{data} unsubscribed"
         when 'send'
@@ -26,6 +28,10 @@ module LambdaMail
 
       def self.save_subscribe(email_address)
         create(kind: 'subscribe', data: email_address).save
+      end
+
+      def self.save_subscribe_kiosk(email_address)
+        create(kind: 'subscribe_kiosk', data: email_address).save
       end
 
       def self.save_recipient_add(email_address)

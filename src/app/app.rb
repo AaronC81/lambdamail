@@ -313,6 +313,18 @@ module LambdaMail
           redirect to '/admin/recipients'
         end
 
+        get '/kiosk' do
+          render_page('subscribe/form', 'Subscribe')
+        end
+
+        post '/kiosk' do
+          @recipient = Model::Recipient.create(salt: Utilities.generate_token)
+          write_params_into_model(params, @recipient)
+          @recipient.save
+          Model::Event.save_subscribe_kiosk(@recipient.email_address)
+          redirect to '/admin/recipients/kiosk?done'
+        end
+
         delete '/:id' do |id|
           @recipient = Model::Recipient.get!(id)
           @recipient.destroy

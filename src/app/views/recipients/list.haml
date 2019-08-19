@@ -9,8 +9,11 @@
     %input{name: 'email_address'}
   %button Create
 
-%a{href: '/admin/recipients/many'}
+%a{href: '/admin/recipients/many', style: 'text-decoration: none'}
   %button Add recipients in bulk
+
+%a{href: '/admin/recipients/kiosk', style: 'text-decoration: none'}
+  %button Kiosk mode
 
 %table
   %tr
