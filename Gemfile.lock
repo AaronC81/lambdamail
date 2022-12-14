@@ -54,7 +54,7 @@ GEM
       rake (< 13.0)
     concurrent-ruby (1.1.5)
     connection_pool (2.2.2)
-    crass (1.0.4)
+    crass (1.0.6)
     data_objects (0.10.17)
       addressable (~> 2.1)
     datamapper (1.2.0)
@@ -118,13 +118,12 @@ GEM
     jsonapi-renderer (0.2.2)
     launchy (2.4.3)
       addressable (~> 2.3)
-    loofah (2.2.3)
+    loofah (2.19.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.7.1)
       mini_mime (>= 0.1.1)
     mini_mime (1.0.2)
-    mini_portile2 (2.4.0)
     minitest (5.11.3)
     mongo (1.12.5)
       bson (= 1.12.5)
@@ -135,11 +134,12 @@ GEM
       plucky (~> 0.7.0)
     multi_json (1.13.1)
     mustermann (1.0.3)
-    nokogiri (1.10.4)
-      mini_portile2 (~> 2.4.0)
+    nokogiri (1.13.10-x86_64-linux)
+      racc (~> 1.4)
     plucky (0.7.0)
       mongo (~> 1.5)
     public_suffix (3.1.1)
+    racc (1.6.1)
     rack (2.0.7)
     rack-protection (2.0.5)
       rack
@@ -148,8 +148,8 @@ GEM
     rails-dom-testing (2.0.3)
       activesupport (>= 4.2.0)
       nokogiri (>= 1.6)
-    rails-html-sanitizer (1.0.4)
-      loofah (~> 2.2, >= 2.2.2)
+    rails-html-sanitizer (1.4.4)
+      loofah (~> 2.19, >= 2.19.1)
     rake (12.3.3)
     redcarpet (3.5.0)
     redis (4.1.2)
@@ -204,7 +204,7 @@ GEM
     sorbet (0.4.4514)
       sorbet-static (= 0.4.4514)
     sorbet-runtime (0.4.4514)
-    sorbet-static (0.4.4514-universal-darwin-14)
+    sorbet-static (0.4.4514-x86_64-linux)
     sqlite3 (1.4.1)
     stringex (1.5.1)
     temple (0.8.1)
@@ -217,7 +217,7 @@ GEM
       nokogiri (~> 1.8)
 
 PLATFORMS
-  ruby
+  x86_64-linux
 
 DEPENDENCIES
   actionview (~> 5.2)
